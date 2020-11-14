@@ -10,6 +10,7 @@ var rightPhi0, leftPhi0;                  // initialized values of the Wippe'ang
 var wippeLMove = false;                   // state of left Wippe's movement
 var wippeRMove = false;                   // state of right Wippe's movement
 var leftAngle, rightAngle;                // save wippe's pressed angle after Wippe is released to calculate ball's speed
+var mouseLeftActive, mouseRightActive;    // boolean: true if Wippe hasnt been released or click RESET button, false if Wippe is released & ball flies
 
 /* draw 2 Wippen */ 
 function drawWippe(x,y,w,h,phi,side){
@@ -32,7 +33,7 @@ function drawWippe(x,y,w,h,phi,side){
 
 /* left Wippe is pressed */
 function wippeLeftMove(){
-  if (mouseY > kToYi(groundY)-tri_height*2*M && mouseY < kToYi(groundY)){
+  if (mouseLeftActive && mouseY > kToYi(groundY)-tri_height*2*M && mouseY < kToYi(groundY)){
     wippeLMove = true;
     ballMove_L = true;
     w1y = mouseY;
@@ -42,7 +43,7 @@ function wippeLeftMove(){
 }
 /* right Wippe is pressed */
 function wippeRightMove(){
-  if (mouseY > kToYi(groundY)-tri_height*2*M && mouseY < kToYi(groundY)){
+  if (mouseRightActive && mouseY > kToYi(groundY)-tri_height*2*M && mouseY < kToYi(groundY)){
     wippeRMove = true;
     ballMove_R = true;
     w2y = mouseY;
@@ -63,6 +64,7 @@ function releaseWippe(){
     wippeLMove=false; 
     ballFly_L =true;                      
     getSpeedLeft(leftAngle);                  // calculate the start speed of left ball
+    mouseLeftActive =false;
   }
   
    if (wippeRMove){
@@ -73,6 +75,7 @@ function releaseWippe(){
     wippeRMove=false;                         
     ballFly_R = true;
     getSpeedRight(rightAngle);                // calculate the start speed of right ball
+    mouseRightActive =false;
   }
   
 }

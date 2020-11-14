@@ -29,7 +29,10 @@ Button = function(xPos, yPos){
       buttonName = "RESET";
     }
     else { //reset the scene
-        
+      mouseLeftActive = true;
+      mouseRightActive =true;
+      ballMove_L = true;
+      ballMove_R =true;
       buttonColor = '#77FF33';
       buttonName = "START";
     }

@@ -49,6 +49,8 @@ function setup() {
   rightPhi = - asin(tri_height*M/(M*wip_length/2)); //-23.57817848;
   leftPhi0 = leftPhi;
   rightPhi0 = rightPhi;
+  mouseLeftActive =true;
+  mouseRightActive =true;
 
 /******* Wippe co-ord **********/
   w1x = kToXi(M*(-wip_dis-sqrt(sq(wip_length/2)-sq(tri_height))));
