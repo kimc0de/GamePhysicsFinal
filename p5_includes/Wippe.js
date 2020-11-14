@@ -1,5 +1,16 @@
 /**This file handle the Wippe movement */
 
+/* Wippe variables*/
+let tri_height = 0.05;                    // triangle height in m
+let wip_length = 0.25 ;                   // Wippe length in m 
+let wip_dis = 0.6                         // distance of each Wippe to kart. origin in m
+let redline_dis = 0.4                     // distance of each red line to kart. origin in m
+var rightPhi, leftPhi;                    // variables to keep track of Wippe angles changes
+var rightPhi0, leftPhi0;                  // initialized values of the Wippe'angles 
+var wippeLMove = false;                   // state of left Wippe's movement
+var wippeRMove = false;                   // state of right Wippe's movement
+var leftAngle, rightAngle;                // save wippe's pressed angle after Wippe is released to calculate ball's speed
+
 /* draw 2 Wippen */ 
 function drawWippe(x,y,w,h,phi,side){
   push();
@@ -11,12 +22,10 @@ function drawWippe(x,y,w,h,phi,side){
 
   // small triangles on top of Wippen
   if (side === "left" ){
-    //triangle(-35,1,-28,-10,-20,-1);
-    triangle(kToXi(-1.0875*M),kToYi(0.8308*M),kToXi(-1.07*M),kToYi(0.8583*M),kToXi(-1.05*M),kToYi(0.8358*M));
+    triangle(kToXi(-1.0875*M),kToYi(0.6708*M),kToXi(-1.07*M),kToYi(0.6983*M),kToXi(-1.05*M),kToYi(0.6658*M));
   }
   if (side === "right" ){
-    //triangle(35,1,28,-10,20,-1);
-    triangle(-kToXi(-1.0875*M),-kToYi(0.8308*M),-kToXi(-1.07*M),kToYi(0.8583*M), -kToXi(-1.05*M),kToYi(0.8358*M) );
+    triangle(-kToXi(-1.0875*M),kToYi(0.6708*M),-kToXi(-1.07*M),kToYi(0.6983*M), -kToXi(-1.05*M),kToYi(0.6658*M) );
   }
   pop();
 }
@@ -43,27 +52,27 @@ function wippeRightMove(){
 }
 
 function releaseWippe(){
-                                 //reset time
+             
     dt = 1/frmRate;
     
   if(wippeLMove){
-    t_left =0;
-    leftAngle = getLeftAngle(leftPhi);      // get the pressed angle for getSpeedLeft()
-    leftPhi = leftPhi0;                  // left wippe is released, returns to old position
-    ballMove_L =false;                      // left ball stops moving , starts flying
+    t_left =0;                                //reset time
+    leftAngle = getLeftAngle(leftPhi);        // get the pressed angle for getSpeedLeft()
+    leftPhi = leftPhi0;                       // left wippe is released, returns to old position
+    ballMove_L =false;                        // left ball stops moving , starts flying
     wippeLMove=false; 
     ballFly_L =true;                      
-    getSpeedLeft(leftAngle);                // calculate the start speed of left ball
+    getSpeedLeft(leftAngle);                  // calculate the start speed of left ball
   }
   
    if (wippeRMove){
-    t_right = 0;
-    rightAngle = getRightAngle(rightPhi);   // get the pressed angle for getSpeedRight()
-    rightPhi = rightPhi0;                // right wippe is released, returns to old position
-    ballMove_R=false;                       // right ball stops moving , starts flying
-    wippeRMove=false;
+    t_right = 0;                              //reset time
+    rightAngle = getRightAngle(rightPhi);     // get the pressed angle for getSpeedRight()
+    rightPhi = rightPhi0;                     // right wippe is released, returns to old position
+    ballMove_R=false;                         // right ball stops moving , starts flying
+    wippeRMove=false;                         
     ballFly_R = true;
-    getSpeedRight(rightAngle);              // calculate the start speed of right ball
+    getSpeedRight(rightAngle);                // calculate the start speed of right ball
   }
   
 }

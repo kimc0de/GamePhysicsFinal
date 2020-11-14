@@ -1,12 +1,12 @@
 /************** Variables Declaration *****************/
 
 /* Canvas */
-var Width = 800;                          // canvas width
-var Height = 400;                         //canvas height
+var Width = 600;                          // canvas width
+var Height = 300;                         //canvas height
 
 /* Co-ordinates */ 
 var  xi0 = 0.5*Width;                     // intern origin X-position
-var  yi0 = 5/6*Height;                    // intern origin Y-position
+var  yi0 = 2/3*Height;                    // intern origin Y-position
  
 /* Massstabe */
 let realLength = 2;                       // length of canvas in m 
@@ -18,55 +18,11 @@ let groundX = -1;                         // groundX = rect X-position
 let groundW = 2;                          // width of the ground
 let groundH = 0.0625;                     // height of the ground
 
-/* Balls */
-let d_ball = 0.032;                       // ball's diameter in m
-let r_ball = 0.016;                       // ball's radius in m
-var xball = 0                             // center ball X-position
-var yball = r_ball;                       // center ball Y-position
-var xball_L = -0.68;                      // left ball X-position, used in ballLeftFly()
-var yball_L = 0.105;                      // left ball Y-position, used in ballLeftFly()
-var xball_R = 0.68;                       // right ball X-position, used in ballLeftFly()
-var yball_R = 0.105;                      // right ball Y-position, used in ballLeftFly()
-var xL = xball_L;                // left ball initialized X-position, used in drawBallMove()
-var yL = yball_L;                // left ball initialized Y-position, used in drawBallMove()
-var xR = xball_R;                // right ball initialized X-position, used in drawBallMove()
-var yR = yball_R;                // right ball initialized Y-position, used in drawBallMove()
-var x0L = -0.68;                          // save start X-position of left ball for method ballLeftFly()
-var y0L = 0.105;                          // save start Y-position of left ball for method ballLeftFly()
-var x0R = 0.68;                           // save start X-position of right ball for method ballRightFly()
-var y0R = 0.105;                          // save start Y-position of right ball for method ballRightFly()
-
-/* Balls status */ 
-var ballMove_L = true;                    // state of left ball moving with left Wippe
-var ballMove_R = true;                    // state of right ball moving with right Wippe
-var ballFly_L = false;                    // state of left ball flying
-var ballFly_R = false;                    // state of right ball flying
-
-  
-/* Wippe */
-let tri_height = 0.05;                    // triangle height in m
-let wip_length = 0.25 ;                   // Wippe length in m 
-let wip_dis = 0.6                         // distance of each Wippe to kart. origin in m
-let redline_dis = 0.4                     // distance of each red line to kart. origin in m
-var rightPhi, leftPhi;                    // variables to keep track of Wippe angles changes
-var rightPhi0, leftPhi0;                  // initialized values of the Wippe'angles 
-var wippeLMove = false;                   // state of left Wippe's movement
-var wippeRMove = false;                   // state of right Wippe's movement
-var leftAngle, rightAngle;                // save wippe's pressed angle after Wippe is released to calculate ball's speed
-
-/* Button */
-let butonX;                                   
-let buttonY;
-let buttonW;
-let buttonH ;
-var buttonName ;
-
 /* Bubbles for movement */
 let bubbleD = 0.075*M; //bubble diameter
 let r = bubbleD/2;
 
 /* Time */
-var t = 0;             // Zeit
 var t_left  = 0;
 var t_right = 0;
 var dt;                // Zeitquant - wird auf die Bildwechselrate bezogen
@@ -75,16 +31,17 @@ var frmRate;           // Fliesskommadarstellung für Kehrwertbildung notwendig!
 /* Gravity*/
 var g = 9.81;
 
-
 function setup() {    
  
   createCanvas(Width, Height);
 /****** Button ********/
-  buttonX = 360;
-  buttonY = 365;
+  buttonX = 260;
+  buttonY = 250;
   buttonW = 80;
   buttonH = 30;
-  buttonName = "Start";
+  buttonColor = '#77FF33';
+  buttonName = "START";
+  resetButton = new Button(buttonX, buttonY)
   
 /****** Wippe initialized angle *******/
   angleMode(DEGREES);
@@ -103,7 +60,6 @@ function setup() {
   frmRate = 60;
   frameRate(frmRate);
   dt = 1.0/frmRate;
-
 } 
 
 function draw() {
@@ -111,17 +67,14 @@ function draw() {
   background(128,252,245);
 
   /* Button */
-  fill(255,153,51);
-  rect (buttonX, buttonY, buttonW, buttonH);
-  fill(0);
-  text(buttonName,buttonX+20,buttonY+20);
+  resetButton.drawButton(buttonColor, buttonName);
 
   /* Text */
   fill(0,0,0);
-  textSize(16);
-  text("Kim Ngan Le Dang - 26.10.2020", 280, 30);
-  text("Ubung 4", 370, 55);
-  text("Treffer 0:0", 365, 100);
+  textSize(12);
+  text("Kim Ngan Le Dang - 14.11.2020", 220, 30);
+  //text("Ubung 5", 275, 55);
+  text("Treffer 0:0", 270, 55);
   
   /* Ground */
   strokeWeight(1);

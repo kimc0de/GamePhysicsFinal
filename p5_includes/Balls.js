@@ -1,5 +1,25 @@
+/* Balls */
+let d_ball = 0.032;                       // ball's diameter in m
+let r_ball = 0.016;                       // ball's radius in m
+var xball = 0                             // center ball X-position
+var yball = r_ball;                       // center ball Y-position
+var xball_L = -0.68;                      // left ball X-position, used in ballLeftFly()
+var yball_L = 0.105;                      // left ball Y-position, used in ballLeftFly()
+var xball_R = 0.68;                       // right ball X-position, used in ballLeftFly()
+var yball_R = 0.105;                      // right ball Y-position, used in ballLeftFly()
+var x0L = xball_L;                        // left ball initialized X-position
+var y0L = yball_L;                        // left ball initialized Y-position
+var x0R = xball_R;                        // right ball initialized X-position
+var y0R = yball_R;                        // right ball initialized Y-position
+
+/* Balls status */ 
+var ballMove_L = true;                    // state of left ball moving with left Wippe
+var ballMove_R = true;                    // state of right ball moving with right Wippe
+var ballFly_L = false;                    // state of left ball flying
+var ballFly_R = false;                    // state of right ball flying
+
 /* Speed in m/s */
-var v0 = 0.05; 
+var v0 = 1; 
 var v0_L ;
 var v0_R ;
 var vx0_L;
@@ -17,7 +37,7 @@ function drawBall (x,y,w,h){
 /* Get the start speed of left ball, parameter a is the pressed angle */
 function getSpeedLeft(a){
 
-    v0_L  = v0 * abs(a);
+    v0_L  = v0 * a / leftPhi0;
     vx0_L = v0_L * sin(a);
     vy0_L = v0_L * cos(a);
     xMax_L = v0_L * v0_L / g ;	
@@ -26,7 +46,7 @@ function getSpeedLeft(a){
 
 function getSpeedRight(a){
     
-    v0_R  = v0 * abs(a);
+    v0_R  = v0 * a / (-rightPhi0);
     vx0_R = v0_R * sin(a);
     vy0_R = v0_R * cos(a);
     xMax_R = v0_R * v0_R / g ;
@@ -45,7 +65,7 @@ function ballRightFly() {
     if (xball_R <= - xMax_R) {
         dt = 0;
         ballFly_R= false;
-       
+        
     } 
     else {
         t_right = t_right + dt;
@@ -79,7 +99,7 @@ function drawBallMove(x,y,d_ball,phi, side){
     translate(kToXi(-wip_dis*M), kToYi(groundY)-tri_height*M);
     push();
     rotate(phi);
-    translate(-38,-8);
+    translate(-30,-6);
     ellipse(0,0,d_ball);
     pop();
     }
@@ -87,7 +107,7 @@ function drawBallMove(x,y,d_ball,phi, side){
     translate(kToXi(wip_dis*M), kToYi(groundY)-tri_height*M);
     push();
     rotate(phi);
-    translate(38,-8);
+    translate(30,-6);
     ellipse(0,0,d_ball);
     pop();
     }

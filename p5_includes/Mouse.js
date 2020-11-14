@@ -18,16 +18,8 @@ function mouseDragged(){
   function mouseClicked(){
     /* If mouse clicks on the button*/
      if (buttonX < mouseX && buttonX+buttonW > mouseX && buttonY < mouseY && buttonY+buttonH > mouseY) { //check if it clicks the button
-         changeName();
+         buttonIsClicked();
        }
   }
-  /* Change name of the button */
-  function changeName(){
-      if (buttonName == "Start") {
-        buttonName = "Reset"
-      }
-      else {
-        buttonName = "Start"
-      }
-    }
+
   
