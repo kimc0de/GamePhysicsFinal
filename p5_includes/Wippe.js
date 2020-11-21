@@ -11,7 +11,7 @@ var wippeLMove = false;                   // state of left Wippe's movement
 var wippeRMove = false;                   // state of right Wippe's movement
 var leftAngle, rightAngle;                // save wippe's pressed angle after Wippe is released to calculate ball's speed
 var mouseLeftActive, mouseRightActive;    // boolean: true if Wippe hasnt been released or click RESET button, false if Wippe is released & ball flies
-
+let startWippe_Left, startWippe_Right;
 /* draw 2 Wippen */ 
 function drawWippe(x,y,w,h,phi,side){
   push();
@@ -35,7 +35,7 @@ function drawWippe(x,y,w,h,phi,side){
 function wippeLeftMove(){
   if (mouseLeftActive && mouseY > kToYi(groundY)-tri_height*2*M && mouseY < kToYi(groundY)){
     wippeLMove = true;
-    ballMove_L = true;
+    status_left = 0;
     w1y = mouseY;
     leftPhi = asin((iToYk(w1y)/M-tri_height)/(0.5*wip_length));
     
@@ -45,7 +45,7 @@ function wippeLeftMove(){
 function wippeRightMove(){
   if (mouseRightActive && mouseY > kToYi(groundY)-tri_height*2*M && mouseY < kToYi(groundY)){
     wippeRMove = true;
-    ballMove_R = true;
+    status_right = 0;
     w2y = mouseY;
     rightPhi = -asin((iToYk(w2y)/M -tri_height)/(0.5*wip_length)); 
     
@@ -60,9 +60,8 @@ function releaseWippe(){
     t_left =0;                                //reset time
     leftAngle = getLeftAngle(leftPhi);        // get the pressed angle for getSpeedLeft()
     leftPhi = leftPhi0;                       // left wippe is released, returns to old position
-    ballMove_L =false;                        // left ball stops moving , starts flying
     wippeLMove=false; 
-    ballFly_L =true;                      
+    status_left = 1;                  
     getSpeedLeft(leftAngle);                  // calculate the start speed of left ball
     mouseLeftActive =false;
   }
@@ -71,9 +70,8 @@ function releaseWippe(){
     t_right = 0;                              //reset time
     rightAngle = getRightAngle(rightPhi);     // get the pressed angle for getSpeedRight()
     rightPhi = rightPhi0;                     // right wippe is released, returns to old position
-    ballMove_R=false;                         // right ball stops moving , starts flying
     wippeRMove=false;                         
-    ballFly_R = true;
+    status_right = 1;
     getSpeedRight(rightAngle);                // calculate the start speed of right ball
     mouseRightActive =false;
   }

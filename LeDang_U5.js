@@ -62,6 +62,10 @@ function setup() {
   frmRate = 60;
   frameRate(frmRate);
   dt = 1.0/frmRate;
+
+/********** Ball Status *******/
+status_left =0;
+status_right=0;
 } 
 
 function draw() {
@@ -116,26 +120,58 @@ function draw() {
   fill(255,0,0);                                    //center ball color red
   drawBall(xball, yball, d_ball, d_ball);           // center ball
   
-  fill(0,255,0);  
-  if(ballMove_L){                                   // left ball is showed and move with the Wippe
-    drawBallMove(kToXi(x0L*M),kToYi(y0L*M),d_ball*M, leftPhi,"left"); 
-  }
-  else if(ballFly_L) {                              // ball is flying
-    ballLeftFly(); 
-    drawBall(xball_L, yball_L, d_ball, d_ball);     // a different left ball that flies
-  }
-  else {drawBall(xball_L, yball_L, d_ball, d_ball);} // left ball stops when reaches Xmax, remain stop position
-   
-  fill(255,255,0); 
-  if(ballMove_R){                                   // right ball is showed and moves with Wippe
-    drawBallMove(kToXi(x0R*M),kToYi(y0R*M),d_ball*M, rightPhi,"right");
-  }
-  else if (ballFly_R){                               //ball is flying
-    ballRightFly();  
-    drawBall(xball_R, yball_R, d_ball, d_ball);      // a different right ball that flies
-    }
-  else {drawBall(xball_R, yball_R, d_ball, d_ball);} // right ball stops when reaches Xmax, remain stop position
+  /******************* Preparing Calculation ******************/
+  if(START) {  // always click START before playing, else balls will start flying from a wrong x0
+      t_left = 0;
+      status_left = 0;
+      mouseLeftActive = true;
+      x0L = x0_left;
+      y0L = y0_left;
 
+      t_right = 0;
+      status_right =0;
+      mouseRightActive = true;
+      x0R = x0_right;
+      y0R = y0_right;
+
+      dt = 1.0/frmRate;
+      START = false;
+  }
+
+  /************************* Left Ball ***********************/
+  fill(0,255,0);  
+  switch (status_left)
+  {
+    case 0 : 
+      drawBallMove(kToXi(x0L*M),kToYi(y0L*M),d_ball*M, leftPhi,"left");
+      break;
+    case 1 :
+      ballLeftFly(); 
+      drawBall(xball_L, yball_L, d_ball, d_ball);   
+      break;
+    case 2 : 
+      ballLeftRoll_OnFloor();
+      drawBall(xball_L, yball_L, d_ball, d_ball);
+      break;
+  }
+
+ /************************* Right Ball ***********************/
+  fill(255,255,0); 
+  switch (status_right)
+  {
+    case 0 : // right ball is showed and moves with Wippe
+      drawBallMove(kToXi(x0R*M),kToYi(y0R*M),d_ball*M, rightPhi,"right");
+      break;
+    case 1 : // ball is flying
+      ballRightFly(); 
+      drawBall(xball_R, yball_R, d_ball, d_ball);   
+      break;
+    case 2 : // ball landed on floor, keeps rolling
+      ballRightRoll_OnFloor();
+      drawBall(xball_R, yball_R, d_ball, d_ball);
+      break;
+  }
+  
  }
 
 

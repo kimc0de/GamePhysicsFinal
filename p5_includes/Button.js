@@ -5,7 +5,7 @@ let buttonW;
 let buttonH ;
 var buttonName ;
 var buttonColor;
-
+var START = false;
 // Button Objekt
 Button = function(xPos, yPos){
 	this.xPos = xPos;
@@ -25,14 +25,15 @@ Button = function(xPos, yPos){
   /* Change name & color of the button */
   function buttonIsClicked(){
     if (buttonName === "START") {
+      START = true;
       buttonColor = '#FF5533';
       buttonName = "RESET";
     }
     else { //reset the scene
+      status_left = 0;
+      status_right = 0;
       mouseLeftActive = true;
       mouseRightActive =true;
-      ballMove_L = true;
-      ballMove_R =true;
       buttonColor = '#77FF33';
       buttonName = "START";
     }
