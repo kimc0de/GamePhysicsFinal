@@ -3,23 +3,23 @@
  **/ 
 
 //----Transformation from kart. to intern---//
-function kToXi(a)
+function kXi(a)
 { // a is kart. value 
   return(a + xi0);
 }
 
-function kToYi(b)
+function kYi(b)
 { // b is kart. value */
   return(yi0 - b);
 }
 
 //----Transformation from intern to kart. ---//
-function iToXk(a)
+function iXk(a)
 { // a is intern value 
   return(a - xi0);
 }
   
-function iToYk(b)
+function iYk(b)
 { // b is intern value 
   return(yi0 - b);
 }

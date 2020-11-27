@@ -30,8 +30,12 @@ Button = function(xPos, yPos){
       buttonName = "RESET";
     }
     else { //reset the scene
-      status_left = 0;
-      status_right = 0;
+      status_left = "init";
+      status_right = "init";
+      v_left = 0.0;
+      v_right = 0.0;
+      s_left = 0.0;
+      s_right = 0.0;
       mouseLeftActive = true;
       mouseRightActive =true;
       buttonColor = '#77FF33';
