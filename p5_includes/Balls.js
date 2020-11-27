@@ -77,51 +77,47 @@ function leftBall_Fly() {
 function leftBall_OnGround() {
     vy_L = vy_L - g * dt;
     yball_L = r_ball;
-    xball_L = xball_L + vx_L*dt;
+    if (xball_L > bottomBorder_Left && xball_L < bottomBorder_Right){
+        xball_L = xball_L + vx_L*dt;
+    }
    
     if (xball_L <= bottomBorder_Left) {
-        v0s_left = vx_L;
+        v_left = vx_L;
+        s_left = s0;
         status_left = "onLeftWippe";
     }
     if (xball_L >= bottomBorder_Right) {
-        v0s_left = vx_L;
+        v_left = vx_L;
+        s_left = s0;
         status_left = "onRightWippe";
        
     }
 }
 
 function leftBall_OnLeftWippe() {
-    result = rollOnWippe(t_left, s0, v0s_left);
-    v_left = result[0];
-    s_left = result[1];
+    v_left = v_left + g * sin(leftPhi0)*dt;
+    s_left = s_left - v_left* dt;
     
     if (s_left < s0) { 
-        vx0_L = -vx0_L;
-        x0L = bottomBorder_Left;
-        t_left = dt;
+        xball_L = bottomBorder_Left + r_ball; //push the ball to the ground
         status_left = "onGround";
+        vx_L = - vx_L; //change vx direction
     }
-    t_left = t_left + dt;
 }
 
 function leftBall_OnRightWippe() {
-    result = rollOnWippe(t_left, s0, v0s_left);
-    v_left = result[0];
-    s_left = result[1];
+    v_left = v_left - g * sin(leftPhi0)*dt;
+    s_left = s_left + v_left* dt;
     
     if (s_left < s0) { 
-        vx0_L = -vx0_L;
-        x0L = bottomBorder_Right;
-        t_left = dt;
+        xball_L = bottomBorder_Right - r_ball; //push the ball to the ground
         status_left = "onGround";
+        vx_L = - vx_L; //change vx direction
     }
-    t_left = t_left + dt;
 }
 
-
-
 /*************** Right Ball Movement ****************/
-/* calculate right ball's position when it flies after right Wippe is released */
+
 function rightBall_Fly() {
     vy_R = vy_R - g * dt;
     yball_R = yball_R + vy_R*dt;
@@ -134,62 +130,48 @@ function rightBall_Fly() {
 function rightBall_OnGround() {
     vy_R = vy_R - g * dt;
     yball_R = r_ball;
-    xball_R = xball_R - vx_R*dt;
 
-    // if (xball_R > bottomBorder_Left && xball_R < bottomBorder_Right){
-    //     t_right = t_right + dt;
-    // }
-    // else { 
-    //     t_right = dt; 
-    // }
+    if (xball_R > bottomBorder_Left && xball_R < bottomBorder_Right){
+        xball_R = xball_R - vx_R*dt;
+    }
     if (xball_R <= bottomBorder_Left) {
-        v0s_right = vx_R;
+        v_right = vx_R;
+        s_right = s0;
         status_right = "onLeftWippe";
     }
     if (xball_R >= bottomBorder_Right) {
-        v0s_right = vx_R;
+        v_right = vx_R;
+        s_right = s0;
         status_right = "onRightWippe";
-       
     }
 }
 
 function rightBall_OnLeftWippe(){
-    result = rollOnWippe(t_right, s0, v0s_right);
-    v_right = result[0];
-    s_right = result[1];
-    
+    v_right = v_right - g * sin(leftPhi0)*dt;
+    s_right = s_right + v_right * dt;
+
     if (s_right < s0) { 
-        vx0_R = -vx0_R;
-        x0R = bottomBorder_Left;
-        t_right = dt;
+        xball_R = bottomBorder_Left + r_ball; //push the ball to the ground
         status_right = "onGround";
         vx_R = - vx_R; //change vx direction
     }
-    t_right = t_right + dt;
 }
-
 
 function rightBall_OnRightWippe(){
-    result = rollOnWippe(t_right, s0, -v0s_right);
-    v_right = result[0];
-    s_right = result[1];
+    v_right = v_right + g * sin(leftPhi0)*dt;
+    s_right = s_right - v_right * dt;
     
     if (s_right < s0) { 
-        vx0_R = -vx0_R;
-        x0R = bottomBorder_Right;
-        t_right = dt;
+        xball_R = bottomBorder_Right - r_ball; //push the ball to the ground
         status_right = "onGround";
-        vx_R = - vx_R;//change vx direction
+        vx_R = - vx_R; //change vx direction
     }
-    t_right = t_right + dt;
+  
 }
-/***************************************************/
-function rollOnWippe(t, s0, v0s) { // linke W. sign = 1; rechte W. sign = -1;
-    var v, s;
-    v = v0s - g * sin(leftPhi0) * t;
-    s = s0 + v0s * t - g * sin(leftPhi0) * sq(t) / 2;
-    return [v, s];
-}
+
+
+/*********************** Drawing functions****************************/
+
 
 /* Draw the green, yellow balls when they're initialized and move with their Wippe*/
 function ballMoveWithWippe(x, y, d_ball, phi, side) {

@@ -1,6 +1,6 @@
   function setup(){
-      /* Button */
-  resetButton.drawButton(buttonColor, buttonName);
+  //     /* Button */
+  // resetButton.drawButton(buttonColor, buttonName);
       /* Text */
   fill(0, 0, 0);
   textSize(12);
