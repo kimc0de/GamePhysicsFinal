@@ -15,6 +15,7 @@ var x0_left = xball_L;
 var y0_left = yball_L;
 var x0_right = xball_R;
 var y0_right = yball_R;
+var frictionConst = 0.03;
 
 /* Balls status */
 var status_left, status_right;
@@ -22,7 +23,7 @@ var onLeftWippe = false;
 var onRightWippe = false;
 
 /* Speed in m/s */
-var v0max = 3;
+var v0max = 4;
 var v0min = 2.5;
 var v0_L,v0_R;
 var vx0_L, vy0_L;
@@ -33,9 +34,11 @@ var s_left, s_right;				// current position of the balls
 var v_left, v_right;                // speed when balls on the Wippe
 var v0s_left, v0s_right;            // start speed to roll on Wippe
 
+
+
 /* Get the start speed of left ball, parameter a is the pressed angle */
 function getSpeedLeft(a) {
-    v0_L = v0max * a / getLeftAngle(-leftPhi0) ; //speed prop. with angle
+    v0_L = v0max * a / getLeftAngle(-leftPhi0*2) ; //speed prop. with angle
     if (v0_L < v0min) {
         v0_L = v0min;
     }
@@ -48,7 +51,7 @@ function getSpeedLeft(a) {
 }
 
 function getSpeedRight(a) {
-    v0_R = v0max * a / getRightAngle(-rightPhi0) ; //speed prop. with angle
+    v0_R = v0max * a / getRightAngle(-rightPhi0*2) ; //speed prop. with angle
     if (v0_R < v0min) {
         v0_R = v0min;
     }
@@ -72,7 +75,12 @@ function leftBall_Fly() {
 }
 
 function leftBall_OnGround() {
-    vy_L = vy_L - g * dt;
+    if(vx_L < 0){
+        vx_L = vx_L + frictionConst*g*dt;
+    }
+    else{
+        vx_L = vx_L - frictionConst*g*dt;
+    }
     yball_L = r_ball;
     if (xball_L > bottomBorder_Left && xball_L < bottomBorder_Right){
         xball_L = xball_L + vx_L*dt;
@@ -92,7 +100,7 @@ function leftBall_OnGround() {
 }
 
 function leftBall_OnLeftWippe() {
-    v_left = v_left + g * sin(leftPhi0)*dt;
+    v_left = v_left - (g*cos(leftPhi0)*frictionConst - g * sin(leftPhi0))*dt;
     s_left = s_left - v_left* dt;
     
     if (s_left < s0) { 
@@ -103,7 +111,7 @@ function leftBall_OnLeftWippe() {
 }
 
 function leftBall_OnRightWippe() {
-    v_left = v_left - g * sin(leftPhi0)*dt;
+    v_left = v_left + (g*cos(leftPhi0)*frictionConst -g * sin(-rightPhi0))*dt;
     s_left = s_left + v_left* dt;
     
     if (s_left < s0) { 
@@ -125,7 +133,12 @@ function rightBall_Fly() {
 }
 
 function rightBall_OnGround() {
-    vy_R = vy_R - g * dt;
+    if(vx_R < 0){
+        vx_R = vx_R + frictionConst*g*dt;
+    }
+    else{
+    vx_R = vx_R - frictionConst*g*dt;
+    }
     yball_R = r_ball;
 
     if (xball_R > bottomBorder_Left && xball_R < bottomBorder_Right){
@@ -144,7 +157,7 @@ function rightBall_OnGround() {
 }
 
 function rightBall_OnLeftWippe(){
-    v_right = v_right - g * sin(leftPhi0)*dt;
+    v_right = v_right + (g*cos(leftPhi0)*frictionConst -g * sin(leftPhi0))*dt;
     s_right = s_right + v_right * dt;
 
     if (s_right < s0) { 
@@ -155,17 +168,15 @@ function rightBall_OnLeftWippe(){
 }
 
 function rightBall_OnRightWippe(){
-    v_right = v_right + g * sin(leftPhi0)*dt;
+    v_right = v_right - (g*cos(-rightPhi0)*frictionConst -g * sin(-rightPhi0))*dt;
     s_right = s_right - v_right * dt;
     
     if (s_right < s0) { 
         xball_R = bottomBorder_Right - r_ball; //push the ball to the ground
         status_right = "onGround";
         vx_R = - vx_R; //change vx direction
-    }
-  
 }
-
+}
 
 /*********************** Drawing functions****************************/
 
@@ -190,5 +201,6 @@ function ballMoveWithWippe(x, y, d_ball, phi, side) {
         ellipse(0, 0, d_ball);
         pop();
     }
-    pop();
+    pop();  
 }
+
