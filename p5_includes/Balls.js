@@ -18,8 +18,6 @@ var y0_right = yball_R;
 
 /* Balls status */
 var status_left, status_right;
-var prev_leftStatus = "onLeftWippe"
-var prev_rightStatus = "onRightWippe";
 var onLeftWippe = false;
 var onRightWippe = false;
 
@@ -30,7 +28,6 @@ var v0_L,v0_R;
 var vx0_L, vy0_L;
 var vx0_R, vy0_R;
 var vy_L, vy_R, vx_L, vx_R;
-var vw;
 var s0;								// start positions on Wippe
 var s_left, s_right;				// current position of the balls 
 var v_left, v_right;                // speed when balls on the Wippe
