@@ -1,21 +1,28 @@
 /* Balls */
-let d_ball = 0.032; // ball's diameter in m
-let r_ball = 0.016; // ball's radius in m
-var xball = 0 // center ball X-position
-var yball = r_ball; // center ball Y-position
-var xball_L = -0.68; // left ball X-position, used in ballLeftFly()
-var yball_L = 0.105; // left ball Y-position, used in ballLeftFly()
-var xball_R = 0.68; // right ball X-position, used in ballLeftFly()
-var yball_R = 0.105; // right ball Y-position, used in ballLeftFly()
-var x0L = xball_L; // left ball initialized X-position
-var y0L = yball_L; // left ball initialized Y-position
-var x0R = xball_R; // right ball initialized X-position
-var y0R = yball_R; // right ball initialized Y-position
+let d_ball = 0.032;         // ball's diameter in m
+let r_ball = 0.016;         // ball's radius in m
+var xball = 0               // center ball X-position
+var yball = r_ball;         // center ball Y-position
+var xball_L = -0.68;        // left ball X-position, used in ballLeftFly()
+var yball_L = 0.105;        // left ball Y-position, used in ballLeftFly()
+var xball_R = 0.68;         // right ball X-position, used in ballLeftFly()
+var yball_R = 0.105;        // right ball Y-position, used in ballLeftFly()
+var x0L = xball_L;          // left ball initialized X-position
+var y0L = yball_L;          // left ball initialized Y-position
+var x0R = xball_R;          // right ball initialized X-position
+var y0R = yball_R;          // right ball initialized Y-position
 var x0_left = xball_L;
 var y0_left = yball_L;
 var x0_right = xball_R;
 var y0_right = yball_R;
+var m = 0.0025              // Masse des Balls in kg
+
+/** Reibungen */
 var frictionConst = 0.03;
+var cW = 0.45;
+var pLuft = 1.3            // Luftdichte kg/m^3
+var A = Math.PI * r_ball * r_ball;
+var r = cW * pLuft * A / 2;
 
 /* Balls status */
 var status_left, status_right;
@@ -24,7 +31,7 @@ var onRightWippe = false;
 
 /* Speed in m/s */
 var v0max = 4;
-var v0min = 2.5;
+var v0min = 1.5;
 var v0_L,v0_R;
 var vx0_L, vy0_L;
 var vx0_R, vy0_R;
@@ -38,20 +45,27 @@ var v0s_left, v0s_right;            // start speed to roll on Wippe
 
 /* Get the start speed of left ball, parameter a is the pressed angle */
 function getSpeedLeft(a) {
+   
     v0_L = v0max * a / getLeftAngle(-leftPhi0*2) ; //speed prop. with angle
+    
     if (v0_L < v0min) {
         v0_L = v0min;
     }
+    
     vx0_L = v0_L * sin(a);
     vy0_L = v0_L * cos(a);	
+    
     xball_L = x0L;
     yball_L = y0L;
     vx_L = vx0_L;
     vy_L = vy0_L;
-}
+    
+    //console.log(vy0_L);
+} 
 
 function getSpeedRight(a) {
     v0_R = v0max * a / getRightAngle(-rightPhi0*2) ; //speed prop. with angle
+    
     if (v0_R < v0min) {
         v0_R = v0min;
     }
@@ -60,18 +74,21 @@ function getSpeedRight(a) {
     xball_R = x0R;
     yball_R = y0R;
     vx_R = vx0_R;
-    vy_R= vy0_R;
-
+    vy_R = vy0_R;
 }
 
 /*************** Left Ball Movement ****************/
 function leftBall_Fly() {
-    vy_L = vy_L - g * dt;
+    //console.log(vy_L);
+    vy_L = vy_L - (g + (r / m ) * vy_L * Math.sqrt(vx_L*vx_L + vy_L*vy_L) ) * dt ;
+    vx_L = vx_L - (r / m) * vx_L * Math.sqrt(vx_L*vx_L + vy_L*vy_L) * dt ;
+    
     yball_L = yball_L + vy_L*dt;
     xball_L = xball_L + vx_L*dt;
     if (yball_L <= r_ball) {
         status_left = "onGround"; 
     } 
+    
 }
 
 function leftBall_OnGround() {
@@ -124,7 +141,9 @@ function leftBall_OnRightWippe() {
 /*************** Right Ball Movement ****************/
 
 function rightBall_Fly() {
-    vy_R = vy_R - g * dt;
+    vy_R = vy_R - (g + (r / m ) * vy_R * Math.sqrt(vx_R*vx_R + vy_R*vy_R) ) * dt ;
+    vx_R = vx_R - (r / m) * vx_R * Math.sqrt(vx_R*vx_R + vy_R*vy_R) * dt  ;
+
     yball_R = yball_R + vy_R*dt;
     xball_R = xball_R - vx_R*dt;
     if (yball_R <= r_ball) {

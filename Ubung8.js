@@ -20,7 +20,7 @@ let groundH = 0.0625; // height of the ground
 
 /* Bubbles for movement */
 let bubbleD = 0.075 * M; //bubble diameter
-let r = bubbleD / 2;
+let r_bubble = bubbleD / 2;
 
 /* Time */
 var dt; // Zeitquant - wird auf die Bildwechselrate bezogen
@@ -74,7 +74,7 @@ function setup() {
   s_left = 0.0;
   s_right = 0.0;
   s0 = r_ball * sin(rightPhi0 / 2);
-
+  
 }
 
 function draw() {
@@ -104,7 +104,7 @@ function draw() {
     x0R = x0_right;
     y0R = y0_right;
 
-    dt = 0.2 / frmRate;
+    dt = 1 / frmRate;
     START = false;
   }
 
