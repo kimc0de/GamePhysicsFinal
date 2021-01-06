@@ -17,6 +17,9 @@ var x0_right = xball_R;
 var y0_right = yball_R;
 var m = 0.0025              // Masse des Balls in kg
 
+/* Gravity*/
+var g = 9.81;
+
 /** Reibungen */
 var frictionConst = 0.03;
 var cW = 0.45;
@@ -41,7 +44,15 @@ var s_left, s_right;				// current position of the balls
 var v_left, v_right;                // speed when balls on the Wippe
 var v0s_left, v0s_right;            // start speed to roll on Wippe
 
-
+function setupBalls(){
+    status_left = "init";
+    status_right = "init";
+    v_left = 0.0;
+    v_right = 0.0;
+    s_left = 0.0;
+    s_right = 0.0;
+    s0 = r_ball * sin(rightPhi0 / 2);
+}
 
 /* Get the start speed of left ball, parameter a is the pressed angle */
 function getSpeedLeft(a) {

@@ -1,94 +1,26 @@
-/************** Variables Declaration *****************/
-
-/* Canvas */
-var Width = 600; // canvas width
-var Height = 300; //canvas height
-
-/* Co-ordinates */
-var xi0 = 0.5 * Width; // intern origin X-position
-var yi0 = 2 / 3 * Height; // intern origin Y-position
-
-/* Massstabe */
-let realLength = 2; // length of canvas in m 
-let M = Width / realLength; // Masstabe canvas width 800px : 2m reality
-
-/* Ground */
-let groundY = 0; // groundY = rect Y-position
-let groundX = -1; // groundX = rect X-position
-let groundW = 2; // width of the ground
-let groundH = 0.0625; // height of the ground
-
-/* Bubbles for movement */
-let bubbleD = 0.075 * M; //bubble diameter
-let r_bubble = bubbleD / 2;
-
-/* Time */
-var dt; // Zeitquant - wird auf die Bildwechselrate bezogen
-var frmRate; // Fliesskommadarstellung für Kehrwertbildung notwendig!
-
-/* Gravity*/
-var g = 9.81;
-
 function setup() {
 
-  createCanvas(Width, Height);
-  /****** Button ********/
-  buttonX = 260;
-  buttonY = 250;
-  buttonW = 80;
-  buttonH = 30;
-  buttonColor = '#77FF33';
-  buttonName = "START";
-  resetButton = new Button(buttonX, buttonY)
+    createCanvas(Width, Height);
+    
+    setupButtons();
+    setupWippe();
+    setupBalls();
 
-  /****** Wippe initialized angle *******/
-  angleMode(DEGREES);
-  leftPhi = asin(tri_height * M / (M * wip_length / 2)); //23.57817848;
-  rightPhi = -asin(tri_height * M / (M * wip_length / 2)); //-23.57817848;
-  leftPhi0 = leftPhi;
-  rightPhi0 = rightPhi;
-  mouseLeftActive = true;
-  mouseRightActive = true;
-
-  /******* Wippe co-ord **********/
-  w1x = kXi(M * (-wip_dis - sqrt(sq(wip_length / 2) - sq(tri_height))));
-  w1y = kYi(tri_height * 2 * M);
-  w2x = kXi(M * (wip_dis + sqrt(sq(wip_length / 2) - sq(tri_height))));
-  w2y = kYi(tri_height * 2 * M);
-
-  startWippe_Left = -wip_dis + sqrt(sq(wip_length / 2) - sq(tri_height));
-  startWippe_Right = wip_dis - sqrt(sq(wip_length / 2) - sq(tri_height));
-  bottomBorder_Left = startWippe_Left + r_ball * sin(leftPhi0);
-  bottomBorder_Right = -bottomBorder_Left;
-
-  /******** Time ********/
-  frmRate = 60;
-  frameRate(frmRate);
-  dt = 1 / frmRate;
-
-  /********** Ball Status *******/
-  status_left = "init";
-  status_right = "init";
-  v_left = 0.0;
-  v_right = 0.0;
-  s_left = 0.0;
-  s_right = 0.0;
-  s0 = r_ball * sin(rightPhi0 / 2);
-  
+    /******** Time ********/
+    frmRate = 60;
+    frameRate(frmRate);
+    dt = 1 / frmRate;
 }
 
 function draw() {
-  /* Back ground color */
-  background(128, 252, 245);
+  
+    background(128, 252, 245);
+    drawButtons();
+    setupConstants();
 
-  /* Button */
-  resetButton.drawButton(buttonColor, buttonName);
-
-  setupConstants();
-
-  fill(0); 
-  drawWippe(-wip_dis, tri_height, wip_length, 0.005, leftPhi, "left");
-  drawWippe(wip_dis, tri_height, wip_length, 0.005, rightPhi, "right");
+    fill(0); 
+    drawWippe(-wip_dis, tri_height, wip_length, 0.005, leftPhi, "left");
+    drawWippe(wip_dis, tri_height, wip_length, 0.005, rightPhi, "right");
 
   /******************* Preparing Calculation ******************/
 

@@ -1,3 +1,4 @@
+
 function mouseDragged(){
     let d1 = dist(mouseX,mouseY,w1x, w1y);
       if (d1 < r_bubble){
@@ -16,10 +17,18 @@ function mouseDragged(){
   }
   
   function mouseClicked(){
-    /* If mouse clicks on the button*/
-     if (buttonX < mouseX && buttonX+buttonW > mouseX && buttonY < mouseY && buttonY+buttonH > mouseY) { //check if it clicks the button
-         buttonIsClicked();
+    
+     if (buttonX < mouseX && buttonX+buttonW > mouseX && buttonY < mouseY && buttonY+buttonH > mouseY) { 
+         startButtonIsClicked();
+      }
+     if (modeX < mouseX && modeX+modeButtonW > mouseX && modeY < mouseY && modeY+modeButtonH > mouseY) { 
+        modeButtonIsClicked();
+     }
+     if (resetX < mouseX && resetX+resetButtonW > mouseX && resetY < mouseY && resetY+resetButtonH > mouseY) { 
+       if(TEST){
+        resetButtonIsClicked();
        }
+   }
   }
 
   

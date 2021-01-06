@@ -1,4 +1,5 @@
-/**This file handle the Wippe movement */
+/**This file handle the Wippe setup and movement */
+
 
 /* Wippe variables*/
 let tri_height = 0.05;                    // triangle height in m
@@ -13,6 +14,27 @@ var leftAngle, rightAngle;                // save wippe's pressed angle after Wi
 var mouseLeftActive, mouseRightActive;    // boolean: true if Wippe hasnt been released or click RESET button, false if Wippe is released & ball flies
 let startWippe_Left, startWippe_Right;    // begin points of the Wippe, end positions of horizontal movement
 let bottomBorder_Left, bottomBorder_Right;
+
+/* Set up Wippe  */
+function setupWippe(){
+  angleMode(DEGREES);
+  leftPhi = asin(tri_height * M / (M * wip_length / 2)); //23.57817848;    
+  rightPhi = -asin(tri_height * M / (M * wip_length / 2)); //-23.57817848;
+  leftPhi0 = leftPhi;
+  rightPhi0 = rightPhi;
+  mouseLeftActive = true;
+  mouseRightActive = true;
+
+  w1x = kXi(M * (-wip_dis - sqrt(sq(wip_length / 2) - sq(tri_height))));
+  w1y = kYi(tri_height * 2 * M);
+  w2x = kXi(M * (wip_dis + sqrt(sq(wip_length / 2) - sq(tri_height))));
+  w2y = kYi(tri_height * 2 * M);
+
+  startWippe_Left = -wip_dis + sqrt(sq(wip_length / 2) - sq(tri_height));
+  startWippe_Right = wip_dis - sqrt(sq(wip_length / 2) - sq(tri_height));
+  bottomBorder_Left = startWippe_Left + r_ball * sin(leftPhi0);
+  bottomBorder_Right = -bottomBorder_Left;
+}
 
 /* draw 2 Wippen */ 
 function drawWippe(x,y,w,h,phi,side){

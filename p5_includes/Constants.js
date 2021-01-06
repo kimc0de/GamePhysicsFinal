@@ -1,4 +1,31 @@
-  function setupConstants(){
+/* Handle constant stuff such as canvas, text, ground, etc.  */
+
+/* Canvas */
+var Width = 600; // canvas width
+var Height = 300; //canvas height
+
+/* Co-ordinates */
+var xi0 = 0.5 * Width; // intern origin X-position
+var yi0 = 2 / 3 * Height; // intern origin Y-position
+
+/* Massstabe */
+var realLength = 2; // length of canvas in m 
+var M = Width / realLength; // Masstabe canvas width 800px : 2m reality
+
+/* Bubbles for ball movement */
+var r_bubble = 0.075 * M / 2;
+
+/* Time */
+var dt; // Zeitquant - wird auf die Bildwechselrate bezogen
+var frmRate; // Fliesskommadarstellung für Kehrwertbildung notwendig!
+
+  /* Ground */
+var groundY = 0; // groundY = rect Y-position
+var groundX = -1; // groundX = rect X-position
+var groundW = 2; // width of the ground
+var groundH = 0.0625; // height of the ground
+
+function setupConstants(){
   
       /* Text */
   fill(0, 0, 0);
