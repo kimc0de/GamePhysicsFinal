@@ -22,6 +22,15 @@ function draw() {
     drawWippe(-wip_dis, tri_height, wip_length, 0.005, leftPhi, "left");
     drawWippe(wip_dis, tri_height, wip_length, 0.005, rightPhi, "right");
 
+    /* inputs for testing */
+    if (TEST){
+        fill(0);
+        stroke(0);
+        textSize(10);
+        text("X", 20, 50);
+        text("Y", 20, 70);
+        text("V", 20, 90);
+    }
   /******************* Preparing Calculation ******************/
 
   if (START) { // always click START before playing, else balls will start flying from a wrong position
@@ -39,7 +48,12 @@ function draw() {
     dt = 1 / frmRate;
     START = false;
   }
-
+/************************* Test Ball ***********************/
+  if (TEST){
+    fill(0);
+    ellipse(kXi(testBall_x*M), kYi(testBall_y*M), d_ball*M, d_ball*M);
+  }
+ 
   /************************* Left Ball ***********************/
   fill(0, 255, 0);
   switch (status_left) {

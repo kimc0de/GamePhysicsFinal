@@ -1,6 +1,7 @@
 html, body {
-  margin: 2% 15% 10%;
-  padding: auto;
+  /* margin: 2% 15% 10%; */
+  margin : 0;
+  padding: 0;
 }
 canvas {
   display: block;

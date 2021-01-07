@@ -1,4 +1,4 @@
-/* Handle constant stuff such as canvas, text, ground, etc.  */
+/* This file handles constant stuff such as canvas, text, ground.  */
 
 /* Canvas */
 var Width = 600; // canvas width
@@ -19,15 +19,15 @@ var r_bubble = 0.075 * M / 2;
 var dt; // Zeitquant - wird auf die Bildwechselrate bezogen
 var frmRate; // Fliesskommadarstellung für Kehrwertbildung notwendig!
 
-  /* Ground */
+/* Ground */
 var groundY = 0; // groundY = rect Y-position
 var groundX = -1; // groundX = rect X-position
 var groundW = 2; // width of the ground
 var groundH = 0.0625; // height of the ground
 
-function setupConstants(){
-  
-      /* Text */
+function setupConstants() {
+
+  /* Text */
   fill(0, 0, 0);
   textSize(12);
   text("Ball Game - Kim Ngan Le Dang", 220, 30);
@@ -64,5 +64,5 @@ function setupConstants(){
   strokeWeight(1);
   stroke(0);
   fill(255, 0, 0); //center ball color red
-  ellipse(kXi(xball*M), kYi(yball*M), d_ball*M, d_ball*M); // center ball
+  ellipse(kXi(xball * M), kYi(yball * M), d_ball * M, d_ball * M); // center ball
 }
