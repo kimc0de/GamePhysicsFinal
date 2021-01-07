@@ -30,6 +30,8 @@ function draw() {
         text("X", 20, 50);
         text("Y", 20, 70);
         text("V", 20, 90);
+        textSize(12);
+        text("m/s", 80, 90);
     }
   /******************* Preparing Calculation ******************/
 
