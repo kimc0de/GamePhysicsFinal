@@ -3,6 +3,7 @@
 var butonX, buttonY, buttonW, buttonH, buttonName, buttonColor; // Start/Reset button
 var modeX, modeY, modeButtonW, modeButtonH, modeButtonColor, modeButtonName;
 var startButton, modeButton, resetButton;
+var inputX, inputY, inputVX, inputVY;
 var START = false;
 var TEST = false;
 
@@ -31,9 +32,12 @@ function setupInput() {
   inputY = createInput('0.3');
   inputY.position(35, 55);
   inputY.size(35);
-  inputV = createInput('0.0');
-  inputV.position(35, 75);
-  inputV.size(35);
+  inputVX = createInput('0.0');
+  inputVX.position(35, 75);
+  inputVX.size(35);
+  inputVY = createInput('0.0');
+  inputVY.position(35, 95);
+  inputVY.size(35);
 }
 
 /** Set up all buttons */
@@ -117,7 +121,8 @@ function modeButtonIsClicked() {
     testBallVisible = false;
     inputX.hide();
     inputY.hide();
-    inputV.hide();
+    inputVX.hide();
+    inputVY.hide();
   }
 }
 

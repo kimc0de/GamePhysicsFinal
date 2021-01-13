@@ -20,8 +20,8 @@ var m = 0.0025 // Masse des Balls in kg
 var testBall_x0 = 0.3;
 var testBall_y0 = 0.3;
 var testBall_x, testBall_y;
-var test_v0 = 1.5;
-
+// var test_v0 = 1.5;
+var testBall_vx, testBall_vy;
 /* Balls status */
 var status_left, status_right;
 var onLeftWippe = false;
@@ -64,20 +64,24 @@ function setupBalls() {
     //test balls
     testBall_x = testBall_x0;
     testBall_y = testBall_y0;
-
 }
 /** 
  * Place test ball according to input value
  * Run method after user clicks RESET
  */
 function placeTestBall() {
-    const testBallX = inputX.value();
-    const testBallY = inputY.value();
-    const testBall_v0 = inputV.value();
-    testBall_x = testBallX;
-    testBall_y = testBallY;
-    test_v0 = testBall_v0;
+    testBall_x = inputX.value();
+    testBall_y = inputY.value();
+    testBall_vx = inputVX.value();
+    testBall_vy = inputVY.value();
 }
+/**Test ball moves */
+function testBallMove(){
+    testBall_x = testBall_x + testBall_vx*dt;
+    testBall_y = testBall_y + testBall_vy*dt;
+}
+
+
 /* Get the start speed of left ball, parameter a is the pressed angle */
 function getSpeedLeft(a) {
 
@@ -94,7 +98,6 @@ function getSpeedLeft(a) {
     yball_L = y0L;
     vx_L = vx0_L;
     vy_L = vy0_L;
-
 }
 
 function getSpeedRight(a) {
