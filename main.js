@@ -140,16 +140,18 @@ if (TEST){
     text("m/s", 80, 110);
     dt = 0.2 / frmRate;
 }
-    fill(0);
-    if(testBallVisible){
+    
+
+if(testBallVisible){
     switch (testball_status){
         case "init":
-            //placeTestBall();
-            ellipse(kXi(testBall_x*M), kYi(testBall_y*M), d_ball*M, d_ball*M);
+            placeTestBall(); //automatic adjust ball position
             break;
         case "move":
             testBallMove();
-            ellipse(kXi(testBall_x*M), kYi(testBall_y*M), d_ball*M, d_ball*M);
             break;
-    }}
+      }
+      fill(0);
+      ellipse(kXi(testBall_x*M), kYi(testBall_y*M), d_ball*M, d_ball*M);
+    }   
 }

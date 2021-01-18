@@ -17,7 +17,6 @@ var testBall_x0, testBall_y0, testBall_x, testBall_y;
 var testBallVisible = false;
 var testball_status;
 
-var dtTestBall = 0.0;
 var dtTestBall_ = 0.0;
 
 var dx;
@@ -26,9 +25,10 @@ var dvx;
 var dvy; 
 var t_= 0;
 var beta = 0;          // Stoßwinkel
-var phi;
+var phi, gamma1, gamma2;   //// Ergänzungswinkel
 var result;
 
+// 1 is test ball, 2 is red ball
 var v1Z, v1Z_, v2Z, v2Z_;   // Zentralgeschwindigkeit
 var v1T, v1T_, v2T, v2T_;   // Tangentialgeschwindigkeit
 var v1_, v2_;               // Geschwindigkeiten nach dem Stoß
@@ -44,16 +44,16 @@ var touchedGround2 = false;
 /** Input fields for testing */
 function setupInput() {
     /******** Input in meter ********/
-    inputX = createInput('0.3');
+    inputX = createInput('0.1');
     inputX.position(35, 35);
     inputX.size(35);
-    inputY = createInput('0.3');
+    inputY = createInput('0.1');
     inputY.position(35, 55);
     inputY.size(35);
-    inputVX = createInput('-0.2');
+    inputVX = createInput('-0.5');
     inputVX.position(35, 75);
     inputVX.size(35);
-    inputVY = createInput('-0.2');
+    inputVY = createInput('-0.5');
     inputVY.position(35, 95);
     inputVY.size(35);
 
@@ -106,6 +106,9 @@ function modeButtonIsClicked() {
       modeName = "OFF";
       mouseLeftActive = false; //disable Wippe movement
       mouseRightActive = false;
+      touchedGround1 = false;
+      touchedGround2 = false;
+      
     } 
     else if (modeName === "OFF"){ //turn off test mode
       TEST = false;
@@ -119,6 +122,10 @@ function modeButtonIsClicked() {
       inputY.hide();
       inputVX.hide();
       inputVY.hide();
+      redBall_x = redBall_x0;
+      redBall_y = redBall_y0;
+      redBall_vx = redBall_vy0;
+      redBall_vy = redBall_vy0;
     }
   }
 
@@ -137,8 +144,16 @@ function modeButtonIsClicked() {
     // Red ball returns to init position
     redBall_x = redBall_x0;
     redBall_y = redBall_y0;
-    
-
+    redBall_vx = redBall_vy0;
+    redBall_vy = redBall_vy0;
+    // Red ball returns to init position
+    redBall_x = redBall_x0;
+    redBall_y = redBall_y0;
+    redBall_vx = redBall_vy0;
+    redBall_vy = redBall_vy0;
+    COLLISION = false;
+    touchedGround1 = false;
+    touchedGround2 = false;
   }
 
   /**
@@ -153,6 +168,12 @@ function modeButtonIsClicked() {
     setTimeout(() => {
       startColor = '#16C79A';
     }, 100);
+    COLLISION = false;
+    redBall_x = redBall_x0;
+    redBall_y = redBall_y0;
+    redBall_vx = redBall_vy0;
+    redBall_vy = redBall_vy0;
+    dtTestBall = 1.0/frmRate;
   }
 
   /**
@@ -168,10 +189,94 @@ function placeTestBall() {
     testBall_y = testBall_y0;
     testBall_vx = testBall_vx0;
     testBall_vy = testBall_vy0
-
 }
 /**Test ball moves */
 function testBallMove(){
-    testBall_x += testBall_vx*dt;
+    //check collision
+     if (abs(sq(redBall_x - testBall_x)+sq(redBall_y - testBall_y)) <= sq(d_ball) && !COLLISION){ 
+        COLLISION = true;
+     }else{					
+        COLLISION = false;
+      }
+
+    if (COLLISION){
+        beta = atan2(testBall_y - redBall_y, testBall_x - redBall_x);
+       
+        phi = beta - HALF_PI;
+                
+        // im Stoßmoment (1)
+        // zentrale und tangentiale Komponenten   
+
+        result = rotateVector(testBall_vx0, testBall_vy0, phi);
+        v1T = result[0];
+        v1Z = result[1];
+        result = rotateVector(redBall_vx0, redBall_vy0, phi);
+        v2T = result[0];
+        v2Z = result[1];
+ 
+        // im Stoßmoment (2)
+        // Energieübertragung
+
+        v1Z_= ((m1-m2)*v1Z+2*m2*v2Z)/(m1+m2);  // Radialgeschwindigkeiten nach dem Stoß                   
+        v1T_ = v1T;                            // Tangentialgeschwindigkeiten
+        v1_ = sqrt(sq(v1Z_)+sq(v1T_));         // Betrag v1_
+        v2Z_= ((m2-m1)*v2Z+2*m1*v1Z)/(m1+m2);       
+        v2T_ = v2T;                            // keine Tangentialk. auf B, da keine Wechselwirkung!
+        v2_ = sqrt(sq(v2Z_) + sq(v2T_));       // Betrag v2_
+        
+        // x- u. y-Komponenten 
+        result = rotateVector(v1T_, v1Z_, -phi);
+        v1x_ = result[0];
+        v1y_ = result[1];
+        result = rotateVector(v2T_, v2Z_, -phi);
+        v2x_ = result[0];
+        v2y_ = result[1];
+        v1y_ = v1y_ - v2y_;
+        v2y_ = 0;
+        result = rotateVector(v2x_, v2y_, phi);
+        v2T_ = result[0];
+        v2Z_ = result[1];
+
+       // Nach dem Stoß   
+        redBall_vx = v2x_;
+        redBall_vy = v2y_;
+        testBall_vx = v1x_;
+        testBall_vy = v1y_;
+        v1 = sqrt(sq(testBall_vx) + sq(testBall_vy));
+        v2 = sqrt(sq(redBall_vx) + sq(redBall_vy));
+        COLLISION = false;
+    }
+    
+    testBall_x += testBall_vx*dt
     testBall_y += testBall_vy*dt;
+    
+    if (testBall_y <= r_ball && !touchedGround1){
+      testBall_y = r_ball;
+      testBall_vy = -testBall_vy;
+      touchedGround1 = true;
+    }
+
+    redBall_x += redBall_vx* dt
+    redBall_y += redBall_vy * dt;
+
+    if (redBall_y <= r_ball && !touchedGround2){
+      redBall_y = r_ball;
+      redBall_vy = -redBall_vy;
+      touchedGround2 = true;
+    }  
 }
+
+/* function from Dr. Volkmar Naumburger */
+// function rotateVector(x, y, phi) //didn't work  ?????
+// 	{
+// 		var u = x*cos(phi) + y*sin(phi); 
+// 		var v = -x*sin(phi) + y*cos(phi);
+// 		return [u, v];
+//   }
+  
+function rotateVector(x, y, phi)
+	{
+		var u = x*cos(phi) - y*sin(phi);
+		var v = x*sin(phi) + y*cos(phi);
+		return [u, v];
+	}
