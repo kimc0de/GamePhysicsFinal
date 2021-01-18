@@ -9,7 +9,6 @@ var inputX, inputY, inputVX, inputVY;
 
 var TEST = false;
 var COLLISION = false;
-var TESTBALLMOVE = false;
 
 /** Test ball position, speed variables */
 var testBall_vx, testBall_vy, testBall_vx0, testBall_vy0;
@@ -17,15 +16,8 @@ var testBall_x0, testBall_y0, testBall_x, testBall_y;
 var testBallVisible = false;
 var testball_status;
 
-var dtTestBall_ = 0.0;
-
-var dx;
-var dy;
-var dvx;
-var dvy; 
-var t_= 0;
 var beta = 0;          // Stoßwinkel
-var phi, gamma1, gamma2;   //// Ergänzungswinkel
+var phi;   
 var result;
 
 // 1 is test ball, 2 is red ball
@@ -56,8 +48,7 @@ function setupInput() {
     inputVY = createInput('-0.5');
     inputVY.position(35, 95);
     inputVY.size(35);
-
-  }
+}
 
 function setUpTestButtons(){
      /****** Testing buttons & text fields ********/
@@ -141,16 +132,6 @@ function modeButtonIsClicked() {
     setTimeout(() => {
       resetColor = '#16C79A';
     }, 100);
-    // Red ball returns to init position
-    redBall_x = redBall_x0;
-    redBall_y = redBall_y0;
-    redBall_vx = redBall_vy0;
-    redBall_vy = redBall_vy0;
-    // Red ball returns to init position
-    redBall_x = redBall_x0;
-    redBall_y = redBall_y0;
-    redBall_vx = redBall_vy0;
-    redBall_vy = redBall_vy0;
     COLLISION = false;
     touchedGround1 = false;
     touchedGround2 = false;
@@ -169,10 +150,6 @@ function modeButtonIsClicked() {
       startColor = '#16C79A';
     }, 100);
     COLLISION = false;
-    redBall_x = redBall_x0;
-    redBall_y = redBall_y0;
-    redBall_vx = redBall_vy0;
-    redBall_vy = redBall_vy0;
     dtTestBall = 1.0/frmRate;
   }
 
@@ -188,7 +165,12 @@ function placeTestBall() {
     testBall_x = testBall_x0;
     testBall_y = testBall_y0;
     testBall_vx = testBall_vx0;
-    testBall_vy = testBall_vy0
+    testBall_vy = testBall_vy0;
+    // Red ball init position
+    redBall_x = redBall_x0;
+    redBall_y = redBall_y0;
+    redBall_vx = redBall_vy0;
+    redBall_vy = redBall_vy0;
 }
 /**Test ball moves */
 function testBallMove(){
@@ -204,7 +186,7 @@ function testBallMove(){
        
         phi = beta - HALF_PI;
                 
-        // im Stoßmoment (1)
+        // collision (1)
         // zentrale und tangentiale Komponenten   
 
         result = rotateVector(testBall_vx0, testBall_vy0, phi);
@@ -214,7 +196,7 @@ function testBallMove(){
         v2T = result[0];
         v2Z = result[1];
  
-        // im Stoßmoment (2)
+        // collision (2)
         // Energieübertragung
 
         v1Z_= ((m1-m2)*v1Z+2*m2*v2Z)/(m1+m2);  // Radialgeschwindigkeiten nach dem Stoß                   
@@ -224,7 +206,6 @@ function testBallMove(){
         v2T_ = v2T;                            // keine Tangentialk. auf B, da keine Wechselwirkung!
         v2_ = sqrt(sq(v2Z_) + sq(v2T_));       // Betrag v2_
         
-        // x- u. y-Komponenten 
         result = rotateVector(v1T_, v1Z_, -phi);
         v1x_ = result[0];
         v1y_ = result[1];
