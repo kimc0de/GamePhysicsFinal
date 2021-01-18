@@ -60,9 +60,5 @@ function setupConstants() {
     kXi((wip_dis + 0.04) * M), kYi(groundY), //right
     kXi((wip_dis - 0.04) * M), kYi(groundY)); //left
 
-  /* Center Balls */
-  strokeWeight(1);
-  stroke(0);
-  fill(255, 0, 0); //center ball color red
-  ellipse(kXi(xball * M), kYi(yball * M), d_ball * M, d_ball * M); // center ball
+  
 }

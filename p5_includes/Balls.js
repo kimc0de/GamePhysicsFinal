@@ -1,43 +1,44 @@
 /* This file handles Balls setup, balls movement*/
 
+/************************** Variables Declaration ****************************/
+
 let d_ball = 0.032; // ball's diameter in m
 let r_ball = 0.016; // ball's radius in m
-var xball = 0 // center ball X-position
-var yball = r_ball; // center ball Y-position
-var xball_L = -0.68; // left ball X-position, used in ballLeftFly()
-var yball_L = 0.105; // left ball Y-position, used in ballLeftFly()
-var xball_R = 0.68; // right ball X-position, used in ballLeftFly()
-var yball_R = 0.105; // right ball Y-position, used in ballLeftFly()
-var x0L = xball_L; // left ball initialized X-position
-var y0L = yball_L; // left ball initialized Y-position
-var x0R = xball_R; // right ball initialized X-position
-var y0R = yball_R; // right ball initialized Y-position
+
+/* Center ball */ 
+var redBall_x0 = 0      // init X-position
+var redBall_y0 = 0.016; // init Y-position
+var redBall_vx0 = 0.0;  // init X-speed
+var redBall_vy0 = 0.0;  // init Y-speed
+var redBall_x, redBall_y, redBall_vx, redBall_vy;
+/* Left ball */
+var xball_L = -0.68;    // X-position, used in ballLeftFly()
+var yball_L = 0.105;    // Y-position, used in ballLeftFly()
+var x0L = xball_L;      //left ball initialized X-position
+var y0L = yball_L;      // left ball initialized Y-position
 var x0_left = xball_L;
 var y0_left = yball_L;
+/* Right ball*/
+var xball_R = 0.68;     // X-position, used in ballLeftFly()
+var yball_R = 0.105;    // Y-position, used in ballLeftFly()
+var x0R = xball_R;      // initialized X-position
+var y0R = yball_R;      // initialized Y-position
 var x0_right = xball_R;
 var y0_right = yball_R;
-var m = 0.0025 // Masse des Balls in kg
-var testBall_x0 = 0.3;
-var testBall_y0 = 0.3;
-var testBall_x, testBall_y;
-// var test_v0 = 1.5;
-var testBall_vx, testBall_vy;
+/* Balls weight in kg */
+var m = 0.0025; 
 /* Balls status */
 var status_left, status_right;
 var onLeftWippe = false;
 var onRightWippe = false;
-var testBallVisible = false;
-
 /* Gravity*/
 var g = 9.81;
-
 /** Reibungen */
 var frictionConst = 0.03;
 var cW = 0.45;
 var pLuft = 1.3 // Luftdichte kg/m^3
 var A = Math.PI * r_ball * r_ball;
 var r = cW * pLuft * A / 2;
-
 /* Speed in m/s */
 var v0max = 4;
 var v0min = 1.5;
@@ -50,9 +51,9 @@ var s_left, s_right; // current position of the balls
 var v_left, v_right; // speed when balls on the Wippe
 var v0s_left, v0s_right; // start speed to roll on Wippe
 
-/** 
- * Set up play balls
- */
+/****************************** Calculation **********************************/
+
+/* Set up play balls */
 function setupBalls() {
     status_left = "init";
     status_right = "init";
@@ -61,28 +62,11 @@ function setupBalls() {
     s_left = 0.0;
     s_right = 0.0;
     s0 = r_ball * sin(rightPhi0 / 2);
-    //test balls
-    testBall_x = testBall_x0;
-    testBall_y = testBall_y0;
-}
-/** 
- * Place test ball according to input value
- * Run method after user clicks RESET
- */
-function placeTestBall() {
-    testBall_x = inputX.value();
-    testBall_y = inputY.value();
-    testBall_vx = inputVX.value();
-    testBall_vy = inputVY.value();
-}
-/**Test ball moves */
-function testBallMove(){
-    testBall_x = testBall_x + testBall_vx*dt;
-    testBall_y = testBall_y + testBall_vy*dt;
+    redBall_x = redBall_x0;
+    redBall_y = redBall_y0;
 }
 
-
-/* Get the start speed of left ball, parameter a is the pressed angle */
+/* Get the start speed of play balls, parameter a is the pressed angle */
 function getSpeedLeft(a) {
 
     v0_L = v0max * a / getLeftAngle(-leftPhi0 * 2); //speed prop. with angle
@@ -90,7 +74,6 @@ function getSpeedLeft(a) {
     if (v0_L < v0min) {
         v0_L = v0min;
     }
-
     vx0_L = v0_L * sin(a);
     vy0_L = v0_L * cos(a);
 
@@ -99,7 +82,6 @@ function getSpeedLeft(a) {
     vx_L = vx0_L;
     vy_L = vy0_L;
 }
-
 function getSpeedRight(a) {
     v0_R = v0max * a / getRightAngle(-rightPhi0 * 2); //speed prop. with angle
 
@@ -112,7 +94,6 @@ function getSpeedRight(a) {
     yball_R = y0R;
     vx_R = vx0_R;
     vy_R = vy0_R;
-
 }
 
 /*************** Left Ball Movement ****************/
@@ -232,8 +213,7 @@ function rightBall_OnRightWippe() {
     }
 }
 
-/*********************** Drawing functions****************************/
-
+/*********************** Drawing functions ****************************/
 
 /* Draw the green, yellow balls when they're initialized and move with their Wippe*/
 function ballMoveWithWippe(x, y, d_ball, phi, side) {

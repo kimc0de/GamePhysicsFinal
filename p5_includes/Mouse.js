@@ -16,12 +16,17 @@ function mouseClicked() {
   if (buttonX < mouseX && buttonX + buttonW > mouseX && buttonY < mouseY && buttonY + buttonH > mouseY) {
     startButtonIsClicked();
   }
-  if (modeX < mouseX && modeX + modeButtonW > mouseX && modeY < mouseY && modeY + modeButtonH > mouseY) {
+  /*****Testing buttons*****/
+  if (modeX < mouseX && modeX + modeW > mouseX && modeY < mouseY && modeY + modeH > mouseY) {
     modeButtonIsClicked();
   }
-  if (resetX < mouseX && resetX + resetButtonW > mouseX && resetY < mouseY && resetY + resetButtonH > mouseY) {
+  if (resetX < mouseX && resetX + resetW > mouseX && resetY < mouseY && resetY + resetH > mouseY) {
     if (TEST) {
       resetButtonIsClicked();
     }
   }
+  if (startX < mouseX && startX + startW > mouseX && startY < mouseY && startY + startH > mouseY) {
+      startTestIsClicked();
+  }
+  /*************************/
 }
