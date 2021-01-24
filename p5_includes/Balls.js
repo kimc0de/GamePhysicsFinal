@@ -26,7 +26,7 @@ var y0R = yball_R;      // initialized Y-position
 var x0_right = xball_R;
 var y0_right = yball_R;
 /* Balls weight in kg */
-var m = 0.0025; 
+var m = 0.025; 
 /* Balls status */
 var status_left, status_right;
 var onLeftWippe = false;

@@ -138,7 +138,7 @@ if (TEST){
     textSize(12);
     text("m/s", 80, 90);
     text("m/s", 80, 110);
-    dt = 0.2 / frmRate;
+    dt = 1/ frmRate;
 }
     
 

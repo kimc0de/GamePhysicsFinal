@@ -150,7 +150,7 @@ function modeButtonIsClicked() {
       startColor = '#16C79A';
     }, 100);
     COLLISION = false;
-    dtTestBall = 1.0/frmRate;
+
   }
 
   /**
@@ -183,7 +183,6 @@ function testBallMove(){
 
     if (COLLISION){
         beta = atan2(testBall_y - redBall_y, testBall_x - redBall_x);
-       
         phi = beta - HALF_PI;
                 
         // collision (1)
@@ -201,10 +200,8 @@ function testBallMove(){
 
         v1Z_= ((m1-m2)*v1Z+2*m2*v2Z)/(m1+m2);  // Radialgeschwindigkeiten nach dem Stoß                   
         v1T_ = v1T;                            // Tangentialgeschwindigkeiten
-        v1_ = sqrt(sq(v1Z_)+sq(v1T_));         // Betrag v1_
         v2Z_= ((m2-m1)*v2Z+2*m1*v1Z)/(m1+m2);       
         v2T_ = v2T;                            // keine Tangentialk. auf B, da keine Wechselwirkung!
-        v2_ = sqrt(sq(v2Z_) + sq(v2T_));       // Betrag v2_
         
         result = rotateVector(v1T_, v1Z_, -phi);
         v1x_ = result[0];
@@ -214,50 +211,45 @@ function testBallMove(){
         v2y_ = result[1];
         v1y_ = v1y_ - v2y_;
         v2y_ = 0;
-        result = rotateVector(v2x_, v2y_, phi);
-        v2T_ = result[0];
-        v2Z_ = result[1];
-
+    
        // Nach dem Stoß   
-        redBall_vx = v2x_;
+        redBall_vx = -v2x_;
         redBall_vy = v2y_;
-        testBall_vx = v1x_;
+        testBall_vx = -v1x_;
         testBall_vy = v1y_;
-        v1 = sqrt(sq(testBall_vx) + sq(testBall_vy));
-        v2 = sqrt(sq(redBall_vx) + sq(redBall_vy));
         COLLISION = false;
     }
     
     testBall_x += testBall_vx*dt
     testBall_y += testBall_vy*dt;
     
-    if (testBall_y <= r_ball && !touchedGround1){
+    if (testBall_y <= r_ball){
       testBall_y = r_ball;
       testBall_vy = -testBall_vy;
-      touchedGround1 = true;
+      
     }
 
     redBall_x += redBall_vx* dt
     redBall_y += redBall_vy * dt;
 
-    if (redBall_y <= r_ball && !touchedGround2){
+    if (redBall_y <= r_ball ){
       redBall_y = r_ball;
       redBall_vy = -redBall_vy;
-      touchedGround2 = true;
+   
     }  
 }
 
 /* function from Dr. Volkmar Naumburger */
-// function rotateVector(x, y, phi) //didn't work  ?????
-// 	{
-// 		var u = x*cos(phi) + y*sin(phi); 
-// 		var v = -x*sin(phi) + y*cos(phi);
-// 		return [u, v];
-//   }
-  
-function rotateVector(x, y, phi)
+function rotateVector(x, y, phi) //didn't work  ?????
 	{
-		var u = x*cos(phi) - y*sin(phi);
-		var v = x*sin(phi) + y*cos(phi);
+		var u = x*cos(phi) + y*sin(phi); 
+		var v = -x*sin(phi) + y*cos(phi);
 		return [u, v];
-	}
+  }
+  
+// function rotateVector(x, y, phi)
+// 	{
+// 		var u = x*cos(phi) - y*sin(phi);
+// 		var v = x*sin(phi) + y*cos(phi);
+// 		return [u, v];
+// 	}
