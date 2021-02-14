@@ -14,6 +14,7 @@ var mouseLeftActive, mouseRightActive; // boolean: true if Wippe hasnt been rele
 let startWippe_Left, startWippe_Right; // begin points of the Wippe, end positions of horizontal movement
 let bottomBorder_Left, bottomBorder_Right;
 
+
 /* Set up Wippe  */
 function setupWippe() {
   angleMode(DEGREES);
@@ -59,6 +60,7 @@ function wippeLeftMove() {
   if (mouseLeftActive && mouseY > kYi(groundY) - tri_height * 2 * M && mouseY < kYi(groundY)) {
     wippeLMove = true;
     status_left = "init";
+    status_right = "init";
     w1y = mouseY;
     leftPhi = asin((iYk(w1y) / M - tri_height) / (0.5 * wip_length));
 
@@ -69,6 +71,7 @@ function wippeRightMove() {
   if (mouseRightActive && mouseY > kYi(groundY) - tri_height * 2 * M && mouseY < kYi(groundY)) {
     wippeRMove = true;
     status_right = "init";
+    status_left = "init";
     w2y = mouseY;
     rightPhi = -asin((iYk(w2y) / M - tri_height) / (0.5 * wip_length));
 
@@ -80,23 +83,29 @@ function releaseWippe() {
   dt = 1 / frmRate;
 
   if (wippeLMove) {
+    leftTurn = true;
+    rightTurn = false;
     t_left = 0; //reset time
     leftAngle = getLeftAngle(leftPhi); // get the pressed angle for getSpeedLeft()
     leftPhi = leftPhi0; // left wippe is released, returns to old position
     wippeLMove = false;
     status_left = "flying";
-    getSpeedLeft(leftAngle); // calculate the start speed of left ball
     mouseLeftActive = false;
+    mouseRightActive = true;
+    getSpeedLeft(leftAngle); // calculate the start speed of left ball
   }
 
   if (wippeRMove) {
+    rightTurn = true;
+    leftTurn = false;
     t_right = 0; //reset time
     rightAngle = getRightAngle(rightPhi); // get the pressed angle for getSpeedRight()
     rightPhi = rightPhi0; // right wippe is released, returns to old position
     wippeRMove = false;
     status_right = "flying";
-    getSpeedRight(rightAngle); // calculate the start speed of right ball
     mouseRightActive = false;
+    mouseLeftActive = true;
+    getSpeedRight(rightAngle); // calculate the start speed of right ball
   }
 
 }

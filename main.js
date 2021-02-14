@@ -7,17 +7,22 @@ function setup() {
     setupBalls();
 
     setUpTestButtons();
-   
+
+    leftScore = 0;
+    rightScore = 0;
+    leftTurn = false;
+    rightTurn = false;
+
     frmRate = 60;
     frameRate(frmRate);
-    dt = 1 / frmRate;
+    dt = 0.3 / frmRate;
 }
 
 function draw() {
   
     background(128, 252, 245);
     drawButtons();
-    setupConstants();
+    drawConstants();
 
     drawTestButtons();
 
@@ -44,11 +49,14 @@ function draw() {
     x0R = x0_right;
     y0R = y0_right;
 
-    dt = 1 / frmRate;
+    redBall_x = redBall_x0;
+    redBall_y = redBall_y0;
+    redBall_vx = redBall_vy0;
+    redBall_vy = redBall_vy0;
     START = false;
   } 
-  
-
+  dt = 0.3 / frmRate;
+  checkScore();
   /************************* Left Ball ***********************/
   fill(0, 255, 0);
   switch (status_left) {
@@ -84,6 +92,10 @@ function draw() {
         pop();
         pop();
         break;
+    case "collision":
+        leftCollision();
+        ellipse(kXi(xball_L*M), kYi(yball_L*M), d_ball*M, d_ball*M);
+       
   }
 
   /************************* Right Ball ***********************/
@@ -121,8 +133,10 @@ function draw() {
         pop();
         pop();
         break;
+    case "collision":
+        rightCollision();
+        ellipse(kXi(xball_R*M), kYi(yball_R*M), d_ball*M, d_ball*M);
   }
-
 
   /************************* Test Ball ***********************/
 /* inputs for testing */
@@ -138,7 +152,7 @@ if (TEST){
     textSize(12);
     text("m/s", 80, 90);
     text("m/s", 80, 110);
-    dt = 1/ frmRate;
+    dt = 0.2/ frmRate;
 }
     
 

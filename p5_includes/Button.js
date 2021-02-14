@@ -55,6 +55,14 @@ function startButtonIsClicked() {
     mouseRightActive = true;
     buttonColor = '#77FF33';
     buttonName = "START";
+    redBall_x = redBall_x0;
+    redBall_y = redBall_y0;
+    redBall_vx = redBall_vy0;
+    redBall_vy = redBall_vy0;
+    leftScore = 0 ;
+    rightScore = 0;
+    leftTurn = false;
+    rightTurn = false;
   }
 }
 

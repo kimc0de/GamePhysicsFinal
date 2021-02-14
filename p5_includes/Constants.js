@@ -25,25 +25,29 @@ var groundX = -1; // groundX = rect X-position
 var groundW = 2; // width of the ground
 var groundH = 0.0625; // height of the ground
 
-function setupConstants() {
+/**Scores */
+var leftScore , rightScore;
+
+function drawConstants() {
 
   /* Text */
   fill(0, 0, 0);
   textSize(12);
   text("Ball Game - Kim Ngan Le Dang", 220, 30);
-  //text("Ubung 5", 275, 55);
-  text("Treffer 0:0", 270, 55);
+  //scores
+  text("Treffer "+ leftScore + " : " + rightScore, 270, 55);
 
   /* Ground */
   strokeWeight(1);
   stroke(0);
-  fill(245, 237, 198);
+  fill(0, 0, 0);
   rect(kXi(groundX * M), kYi(groundY * M), groundW * M, groundH * M);
 
-  /* Red lines underground */
+  /* Lines underground */
   strokeWeight(4);
-  stroke(255, 0, 0);
+  stroke(0, 255, 0);
   line(kXi((-redline_dis + 0.02) * M), kYi(groundY) + 2, kXi((-redline_dis - 0.02) * M), kYi(groundY) + 2); //left 
+  stroke(255, 255, 0);
   line(kXi((redline_dis + 0.02) * M), kYi(groundY) + 2, kXi((redline_dis - 0.02) * M), kYi(groundY) + 2); //right
 
   /* Wippe */
@@ -60,5 +64,13 @@ function setupConstants() {
     kXi((wip_dis + 0.04) * M), kYi(groundY), //right
     kXi((wip_dis - 0.04) * M), kYi(groundY)); //left
 
-  
+  //Which turn 
+  textSize(15);
+  if (leftTurn){
+    fill(0, 255, 0);
+    text("Left", 170, 55);
+  }else if (rightTurn){
+    fill(255, 255, 0);
+    text("Right", 370, 55);
+  }
 }
