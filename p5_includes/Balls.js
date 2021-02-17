@@ -141,7 +141,7 @@ function leftBall_OnGround() {
     if (xball_L > bottomBorder_Left && xball_L < bottomBorder_Right) {
         xball_L = xball_L + vx_L * dt;
     }
-    //check collision
+    //check collision suggestion from Bartho Berresheim
     let dx = redBall_x - xball_L;
     let dy = redBall_y -  yball_L;
     let dvx = redBall_vx - vx_L;
@@ -257,8 +257,8 @@ function rightBall_Fly() {
     xball_R = xball_R - vx_R * dt;
 
      //check collision
-     let dx = xball_R - redBall_x ;
-     let dy = yball_R - redBall_y ;
+     let dx = redBall_x - xball_R ;
+     let dy = redBall_y - yball_R ;
      let dvx = redBall_vx - vx_R;
      let dvy = redBall_vy - vy_R; 
  
@@ -297,7 +297,7 @@ function rightBall_OnGround() {
 
     let t_ = abs((-sqrt((sq(dvx) + sq(dvy))*sq(d_ball) - sq(dx*dvy - dy*dvx)) - (dx*dvx + dy*dvy))/(sq(dvx) + sq(dvy))); 
 
-    if (t_ <= dt && !COLLISION){
+    if (t_ > dt && !COLLISION){
         COLLISION = true;
         status_right = "collision";
         console.log(status_right);
@@ -421,14 +421,14 @@ function ballMoveWithWippe(x, y, d_ball, phi, side) {
 }
 
 function checkScore(){
-    if( (leftTurn || rightTurn) & redBall_x >= redline_dis){
+    if( (leftTurn || rightTurn) & redBall_x >= redline_dis-0.02){
         leftScore += 1;
         redBall_x = redBall_x0;
         redBall_y = redBall_y0;
         status_left = "init";
         status_right = "init";
     }
-    if ((leftTurn || rightTurn) & redBall_x <= -redline_dis){
+    if ((leftTurn || rightTurn) & redBall_x <= -redline_dis+0.02){
         rightScore += 1;
         redBall_x = redBall_x0;
         redBall_y = redBall_y0;
