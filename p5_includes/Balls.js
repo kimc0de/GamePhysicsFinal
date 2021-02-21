@@ -39,7 +39,7 @@ var A = Math.PI * r_ball * r_ball;
 var r = cW * pLuft * A / 2;
 /* Speed in m/s */
 var v0max = 3.0;
-var v0min = 1.5;
+var v0min = 1.4;
 var v0_L, v0_R;
 var vx0_L, vy0_L;
 var vx0_R, vy0_R;
@@ -170,7 +170,7 @@ function leftBall_OnGround() {
 }
 
 function leftBall_OnLeftWippe() {
-    v_left = v_left - (g * cos(leftPhi0) * frictionConst - g * sin(leftPhi0)) * dt;
+    v_left = v_left - (g * cos(leftPhi0) * frictionConst/10000 - g * sin(leftPhi0)) * dt;
     s_left = s_left - v_left * dt;
 
     if (s_left < s0) {
@@ -181,14 +181,17 @@ function leftBall_OnLeftWippe() {
 }   
 
 function leftBall_OnRightWippe() {
-    v_left = v_left + (g * cos(leftPhi0) * frictionConst - g * sin(-rightPhi0)) * dt;
+    v_left = v_left + (g * cos(leftPhi0) * frictionConst/10000 - g * sin(-rightPhi0)) * dt;
     s_left = s_left + v_left * dt;
-   
+    if (s_left >= 0.165){
+        s_left = s_left - v_left * dt;
+    }
     if (s_left < s0) {
         xball_L = bottomBorder_Right - r_ball; //push the ball to the ground
         status_left = "onGround";
         vx_L = -vx_L; //change vx direction
     }
+   
 }
 function leftCollision(){
     if (COLLISION){
@@ -248,7 +251,7 @@ function leftCollision(){
         vx_L = vx_L - (r / m) * vx_L * Math.sqrt(vx_L * vx_L + vy_L * vy_L) * dt;
     
         yball_L = yball_L + vy_L * dt;
-        xball_L = xball_L - vx_L * dt;
+        xball_L = xball_L + vx_L * dt;
         if (yball_L <= r_ball) {
             yball_L = r_ball;
             if(xball_L> 1 || xball_L < -1){
@@ -332,9 +335,11 @@ function rightBall_OnGround() {
 }
 
 function rightBall_OnLeftWippe() {
-    v_right = v_right - (g * cos(leftPhi0) * frictionConst - g * sin(leftPhi0)) * dt;
+    v_right = v_right - (g * cos(leftPhi0) * frictionConst/10000 - g * sin(leftPhi0)) * dt;
     s_right = s_right - v_right * dt;
-    
+    if (s_right >= 0.165){
+        s_right = s_right + v_right * dt;
+    }
     if (s_right < s0) {
         xball_R = bottomBorder_Left + r_ball; //push the ball to the ground
         status_right = "onGround";
@@ -343,7 +348,7 @@ function rightBall_OnLeftWippe() {
 }
 
 function rightBall_OnRightWippe() {
-    v_right = v_right - (g * cos(-rightPhi0) * frictionConst - g * sin(-rightPhi0)) * dt;
+    v_right = v_right - (g * cos(-rightPhi0) * frictionConst/10000 - g * sin(-rightPhi0)) * dt;
     s_right = s_right - v_right * dt;
 
     if (s_right < s0) {
