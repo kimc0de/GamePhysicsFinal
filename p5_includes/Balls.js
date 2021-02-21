@@ -235,12 +235,12 @@ function leftCollision(){
         redBall_y = r_ball;
     }  
     if(redBall_vx > 0){
-        redBall_vx -= frictionConst*g*dt;
+        redBall_vx -= 2*frictionConst*g*dt; //increase friction more
         if(redBall_vx < 0)
             redBall_vx = 0;
     }
     else{
-        redBall_vx += frictionConst*g*dt;
+        redBall_vx += 2*frictionConst*g*dt;
         if(redBall_vx > 0){
             redBall_vx = 0;
         }
@@ -399,12 +399,12 @@ function rightCollision(){
         redBall_y = r_ball;
     }  
     if(redBall_vx > 0){
-        redBall_vx -= frictionConst*g*dt;
+        redBall_vx -= 2*frictionConst*g*dt;
         if(redBall_vx < 0)
             redBall_vx = 0;
     }
     else{
-        redBall_vx += frictionConst*g*dt;
+        redBall_vx += 2*frictionConst*g*dt;
         if(redBall_vx > 0){
             redBall_vx = 0;
         }
