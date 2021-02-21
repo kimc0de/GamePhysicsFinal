@@ -251,6 +251,9 @@ function leftCollision(){
         xball_L = xball_L - vx_L * dt;
         if (yball_L <= r_ball) {
             yball_L = r_ball;
+            if(xball_L> 1 || xball_L < -1){
+                status_left = "init";
+            }
             if (vx_L < 0) {
                 vx_L = vx_L + frictionConst * g * dt;
             } else {
@@ -411,6 +414,9 @@ function rightCollision(){
 
         if (yball_R <= r_ball) {
             yball_R = r_ball;
+            if(xball_R > 1 || xball_R < -1){
+                status_right = "init";
+            }
             if (vx_R < 0) {
                 vx_R = vx_R + frictionConst * g * dt;
             } else {
