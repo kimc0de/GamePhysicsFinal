@@ -83,8 +83,8 @@ function releaseWippe() {
   dt = 1 / frmRate;
 
   if (wippeLMove) {
-    leftTurn = true;
-    rightTurn = false;
+    leftTurn = false;
+    rightTurn = true;
     t_left = 0; //reset time
     leftAngle = getLeftAngle(leftPhi); // get the pressed angle for getSpeedLeft()
     leftPhi = leftPhi0; // left wippe is released, returns to old position
@@ -96,8 +96,8 @@ function releaseWippe() {
   }
 
   if (wippeRMove) {
-    rightTurn = true;
-    leftTurn = false;
+    rightTurn = false;
+    leftTurn = true;
     t_right = 0; //reset time
     rightAngle = getRightAngle(rightPhi); // get the pressed angle for getSpeedRight()
     rightPhi = rightPhi0; // right wippe is released, returns to old position

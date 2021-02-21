@@ -69,13 +69,18 @@ function drawConstants() {
     kXi((wip_dis + 0.04) * M), kYi(groundY), //right
     kXi((wip_dis - 0.04) * M), kYi(groundY)); //left
 
-  // //Which turn 
-  // textSize(20);
-  // if (leftTurn){
-  //   fill(0, 255, 0);
-  //   text("Left", Width/2 - 300, 55);
-  // }else if (rightTurn){
-  //   fill(255, 255, 0);
-  //   text("Right", Width/2 + 300, 55);
-  // }
+  //Which turn 
+  textSize(20);
+  if (leftTurn){
+    fill(0);
+    text("Next : ", Width/2 - 400, 55);
+    fill(0, 255, 0);
+    text("Left", Width/2 - 300, 55);
+  }else if (rightTurn){
+    fill(0);
+    text("Next : ", Width/2 + 200, 55)
+    fill(255, 255, 0);
+    text("Right", Width/2 + 300, 55);
+  }
+ 
 }

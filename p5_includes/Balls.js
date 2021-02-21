@@ -89,7 +89,7 @@ function getSpeedLeft(a) {
 }
 function getSpeedRight(a) {
     v0_R = v0max * a / getRightAngle(-rightPhi0); //speed prop. with angle
-
+    
     if (v0_R < v0min) {
         v0_R = v0min;
     }
@@ -97,7 +97,7 @@ function getSpeedRight(a) {
     vy0_R = v0_R * cos(a);
     xball_R = x0R;
     yball_R = y0R;
-    vx_R = vx0_R;
+    vx_R = -vx0_R;
     vy_R = vy0_R;
 }
 
@@ -267,7 +267,7 @@ function rightBall_Fly() {
     vx_R = vx_R - (r / m) * vx_R * Math.sqrt(vx_R * vx_R + vy_R * vy_R) * dt;
 
     yball_R = yball_R + vy_R * dt;
-    xball_R = xball_R - vx_R * dt;
+    xball_R = xball_R + vx_R * dt;
 
      //check collision
      let dx = redBall_x - xball_R ;
@@ -300,7 +300,7 @@ function rightBall_OnGround() {
     yball_R = r_ball;
 
     if (xball_R > bottomBorder_Left && xball_R < bottomBorder_Right) {
-        xball_R = xball_R - vx_R * dt;
+        xball_R = xball_R + vx_R * dt;
     }
     //check collision
     let dx = redBall_x - xball_R ;
@@ -401,7 +401,7 @@ function rightCollision(){
             redBall_vx = 0;
         }
     }
-    redBall_x -= redBall_vx * dt;
+    redBall_x += redBall_vx * dt;
     if(prevR == "flying"){
         vy_R = vy_R - (g + (r / m) * vy_R * Math.sqrt(vx_R * vx_R + vy_R * vy_R)) * dt;
         vx_R = vx_R + (r / m) * vx_R * Math.sqrt(vx_R * vx_R + vy_R * vy_R) * dt;

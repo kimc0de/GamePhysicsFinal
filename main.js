@@ -64,6 +64,15 @@ function draw() {
   } 
   dt = 0.3 / frmRate;
   checkScore();
+
+//     textSize(20);
+//     fill(0, 255, 0);
+//     text("vx_L: " + vx_L, Width/2 - 300, 55);
+//     text("vy_L: " + vy_L, Width/2 - 300, 75);
+//     fill(255, 255, 0);
+//     text("vx_R: " + vx_R, Width/2 + 300, 55);
+//     text("vy_R: " + vy_R, Width/2 + 300, 75);
+
   /************************* Left Ball ***********************/
   fill(0, 255, 0);
   switch (status_left) {
