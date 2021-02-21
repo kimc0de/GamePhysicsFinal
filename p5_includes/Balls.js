@@ -38,7 +38,7 @@ var pLuft = 1.3 // Luftdichte kg/m^3
 var A = Math.PI * r_ball * r_ball;
 var r = cW * pLuft * A / 2;
 /* Speed in m/s */
-var v0max = 3.0;
+var v0max = 2.9;
 var v0min = 1.4;
 var v0_L, v0_R;
 var vx0_L, vy0_L;
@@ -183,9 +183,9 @@ function leftBall_OnLeftWippe() {
 function leftBall_OnRightWippe() {
     v_left = v_left + (g * cos(leftPhi0) * frictionConst/10000 - g * sin(-rightPhi0)) * dt;
     s_left = s_left + v_left * dt;
-    if (s_left >= 0.165){
-        s_left = s_left - v_left * dt;
-    }
+    // if (s_left >= 0.165){
+    //     s_left = s_left - v_left * dt;
+    // }
     if (s_left < s0) {
         xball_L = bottomBorder_Right - r_ball; //push the ball to the ground
         status_left = "onGround";
@@ -337,9 +337,9 @@ function rightBall_OnGround() {
 function rightBall_OnLeftWippe() {
     v_right = v_right - (g * cos(leftPhi0) * frictionConst/10000 - g * sin(leftPhi0)) * dt;
     s_right = s_right - v_right * dt;
-    if (s_right >= 0.165){
-        s_right = s_right + v_right * dt;
-    }
+    // if (s_right >= 0.165){
+    //     s_right = s_right + v_right * dt;
+    // }
     if (s_right < s0) {
         xball_R = bottomBorder_Left + r_ball; //push the ball to the ground
         status_right = "onGround";
@@ -415,7 +415,7 @@ function rightCollision(){
         vx_R = vx_R - (r / m) * vx_R * Math.sqrt(vx_R * vx_R + vy_R * vy_R) * dt;
     
         yball_R = yball_R + vy_R * dt;
-        xball_R = xball_R - vx_R * dt;
+        xball_R = xball_R + vx_R * dt;
 
         if (yball_R <= r_ball) {
             yball_R = r_ball;
