@@ -404,10 +404,10 @@ function rightCollision(){
     redBall_x += redBall_vx * dt;
     if(prevR == "flying"){
         vy_R = vy_R - (g + (r / m) * vy_R * Math.sqrt(vx_R * vx_R + vy_R * vy_R)) * dt;
-        vx_R = vx_R + (r / m) * vx_R * Math.sqrt(vx_R * vx_R + vy_R * vy_R) * dt;
+        vx_R = vx_R - (r / m) * vx_R * Math.sqrt(vx_R * vx_R + vy_R * vy_R) * dt;
     
         yball_R = yball_R + vy_R * dt;
-        xball_R = xball_R + vx_R * dt;
+        xball_R = xball_R - vx_R * dt;
 
         if (yball_R <= r_ball) {
             yball_R = r_ball;
