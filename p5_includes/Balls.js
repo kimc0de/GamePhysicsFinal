@@ -2,29 +2,27 @@
 
 /************************** Variables Declaration ****************************/
 
-let d_ball = 0.06; // ball's diameter in m
-let r_ball = 0.03; // ball's radius in m
+let d_ball = 0.05; // ball's diameter in m
+let r_ball = 0.025; // ball's radius in m
 
 /* Center ball */ 
 var redBall_x0 = 0      // init X-position
-var redBall_y0 = 0.03; // init Y-position
+var redBall_y0 = 0.025; // init Y-position
 var redBall_vx0 = 0.0;  // init X-speed
 var redBall_vy0 = 0.0;  // init Y-speed
 var redBall_x, redBall_y, redBall_vx, redBall_vy;
 /* Left ball */
-var xball_L = -0.68;    // X-position, used in ballLeftFly()
-var yball_L = 0.105;    // Y-position, used in ballLeftFly()
-var x0L = xball_L;      //left ball initialized X-position
-var y0L = yball_L;      // left ball initialized Y-position
-var x0_left = xball_L;
-var y0_left = yball_L;
+var x0_left = -0.68;
+var y0_left = 0.205;
+var xball_L, yball_L ;   // X-position, Y-position during movement 
+var x0L, y0L ;       // initialized X-position, initialized Y-position
+
 /* Right ball*/
-var xball_R = 0.68;     // X-position, used in ballLeftFly()
-var yball_R = 0.105;    // Y-position, used in ballLeftFly()
-var x0R = xball_R;      // initialized X-position
-var y0R = yball_R;      // initialized Y-position
-var x0_right = xball_R;
-var y0_right = yball_R;
+var x0_right = 0.68;
+var y0_right = 0.205;
+var xball_R, yball_R ;     // X-position, Y-position during movement
+var x0R , y0R;      // initialized X-position, initialized Y-position
+    
 /* Balls weight in kg */
 var m = 0.025; 
 /* Balls status */
@@ -67,6 +65,10 @@ function setupBalls() {
     s0 = r_ball * sin(rightPhi0 / 2);
     redBall_x = redBall_x0;
     redBall_y = redBall_y0;
+    x0R = x0_right;
+    y0R = y0_right;
+    x0L = x0_left;
+    y0L = y0_left;
 }
 
 /* Get the start speed of play balls, parameter a is the pressed angle */
@@ -119,11 +121,9 @@ function leftBall_Fly() {
          COLLISION = true;
          prevL = "flying";
          status_left = "collision";
-         console.log(status_left);
       }else{					
         COLLISION = false;
         status_left = "flying";
-        console.log(status_left);
     }
 
      if (yball_L <= r_ball) {
@@ -148,7 +148,7 @@ function leftBall_OnGround() {
     let dvy = redBall_vy - vy_L ; 
 
     let t_ = abs((-sqrt((sq(dvx) + sq(dvy))*sq(d_ball) - sq(dx*dvy - dy*dvx)) - (dx*dvx + dy*dvy))/(sq(dvx) + sq(dvy))); 
-
+    
     if (t_ <= dt && !COLLISION){
         COLLISION = true;
         prevL = "onGround";
@@ -225,9 +225,7 @@ function leftCollision(){
     
     COLLISION = false;
 }
-    if(prevL =="flying"){
-        status_left = "flying";
-    }
+   
     redBall_y += redBall_vy * dt;
     
     if (redBall_y <= r_ball){
@@ -245,6 +243,21 @@ function leftCollision(){
         }
     }
     redBall_x += redBall_vx * dt;
+    if(prevL =="flying"){
+        vy_L = vy_L - (g + (r / m) * vy_L * Math.sqrt(vx_L * vx_L + vy_L * vy_L)) * dt;
+        vx_L = vx_L - (r / m) * vx_L * Math.sqrt(vx_L * vx_L + vy_L * vy_L) * dt;
+    
+        yball_L = yball_L + vy_L * dt;
+        xball_L = xball_L - vx_L * dt;
+        if (yball_L <= r_ball) {
+            yball_L = r_ball;
+            if (vx_L < 0) {
+                vx_L = vx_L + frictionConst * g * dt;
+            } else {
+                vx_L = vx_L - frictionConst * g * dt;
+            }
+        }
+    }
 }
 
 /*************** Right Ball Movement ****************/
@@ -264,7 +277,7 @@ function rightBall_Fly() {
  
      let t_ = abs((-sqrt((sq(dvx) + sq(dvy))*sq(d_ball) - sq(dx*dvy - dy*dvx)) - (dx*dvx + dy*dvy))/(sq(dvx) + sq(dvy))); 
  
-     if (t_ <= dt && !COLLISION){
+     if (t_ < dt && !COLLISION){
          COLLISION = true;
          prevR = "flying";
          status_right = "collision";
@@ -290,17 +303,16 @@ function rightBall_OnGround() {
         xball_R = xball_R - vx_R * dt;
     }
     //check collision
-    let dx = xball_R - redBall_x;
-    let dy = yball_R - redBall_y;
+    let dx = redBall_x - xball_R ;
+    let dy = redBall_y - yball_R;
     let dvx = redBall_vx - vx_R;
     let dvy = redBall_vy - vy_R; 
 
     let t_ = abs((-sqrt((sq(dvx) + sq(dvy))*sq(d_ball) - sq(dx*dvy - dy*dvx)) - (dx*dvx + dy*dvy))/(sq(dvx) + sq(dvy))); 
 
-    if (t_ > dt && !COLLISION){
+    if (t_ >= dt && !COLLISION){
         COLLISION = true;
         status_right = "collision";
-        console.log(status_right);
     }else{					
         COLLISION = false;
     }
@@ -319,7 +331,7 @@ function rightBall_OnGround() {
 function rightBall_OnLeftWippe() {
     v_right = v_right + (g * cos(leftPhi0) * frictionConst - g * sin(leftPhi0)) * dt;
     s_right = s_right + v_right * dt;
-
+    
     if (s_right < s0) {
         xball_R = bottomBorder_Left + r_ball; //push the ball to the ground
         status_right = "onGround";
@@ -339,7 +351,7 @@ function rightBall_OnRightWippe() {
 }
 function rightCollision(){
     if (COLLISION){
-    beta = atan2(yball_R - redBall_y, xball_R - redBall_x);
+    beta = atan2(yball_R -redBall_y , xball_R - redBall_x);
     phi = radians(beta) - HALF_PI;
 
     result = rotateVector(vx_R, vy_R, phi);
@@ -372,9 +384,6 @@ function rightCollision(){
     
     COLLISION = false;
 }
-    if(prevR == "flying"){
-        status_right = "flying";
-    }
     
     redBall_y += redBall_vy * dt;
     
@@ -393,6 +402,22 @@ function rightCollision(){
         }
     }
     redBall_x -= redBall_vx * dt;
+    if(prevR == "flying"){
+        vy_R = vy_R - (g + (r / m) * vy_R * Math.sqrt(vx_R * vx_R + vy_R * vy_R)) * dt;
+        vx_R = vx_R + (r / m) * vx_R * Math.sqrt(vx_R * vx_R + vy_R * vy_R) * dt;
+    
+        yball_R = yball_R + vy_R * dt;
+        xball_R = xball_R + vx_R * dt;
+
+        if (yball_R <= r_ball) {
+            yball_R = r_ball;
+            if (vx_R < 0) {
+                vx_R = vx_R + frictionConst * g * dt;
+            } else {
+                vx_R = vx_R - frictionConst * g * dt;
+            }
+        }
+    }
 }
 
 /*********************** Drawing functions ****************************/
@@ -405,7 +430,7 @@ function ballMoveWithWippe(x, y, d_ball, phi, side) {
         translate(kXi(-wip_dis * M), kYi(groundY) - tri_height * M);
         push();
         rotate(phi);
-        translate(-30, -6);
+        translate(-80, -20);
         ellipse(0, 0, d_ball);
         pop();
     }
@@ -413,7 +438,7 @@ function ballMoveWithWippe(x, y, d_ball, phi, side) {
         translate(kXi(wip_dis * M), kYi(groundY) - tri_height * M);
         push();
         rotate(phi);
-        translate(30, -6);
+        translate(80, -20);
         ellipse(0, 0, d_ball);
         pop();
     }

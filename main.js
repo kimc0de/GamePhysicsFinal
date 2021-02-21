@@ -6,13 +6,13 @@ function setup() {
     setupWippe();
     setupBalls();
 
-    setUpTestButtons();
+    //setUpTestButtons();
 
     leftScore = 0;
     rightScore = 0;
     leftTurn = false;
     rightTurn = false;
-
+    START = false;
     frmRate = 60;
     frameRate(frmRate);
     dt = 0.3 / frmRate;
@@ -24,7 +24,7 @@ function draw() {
     drawButtons();
     drawConstants();
 
-    drawTestButtons();
+    //drawTestButtons();
 
     fill(0); 
     drawWippe(-wip_dis, tri_height, wip_length, 0.005, leftPhi, "left");
@@ -36,6 +36,12 @@ function draw() {
     fill(255, 0, 0); //center ball color red
     ellipse(kXi(redBall_x * M), kYi(redBall_y * M), d_ball * M, d_ball * M); // center ball
   /******************* Preparing Calculation ******************/
+  if(!START && !startIsClicked){
+    fill(255, 0, 0);
+    text("Press START to play", width/2-100, height-200);
+    mouseLeftActive = false;
+    mouseRightActive = false;
+  }
 
   if (START) { // always click START before playing, else balls will start flying from a wrong position
 
@@ -53,6 +59,7 @@ function draw() {
     redBall_y = redBall_y0;
     redBall_vx = redBall_vy0;
     redBall_vy = redBall_vy0;
+    startIsClicked = true;
     START = false;
   } 
   dt = 0.3 / frmRate;
@@ -140,32 +147,32 @@ function draw() {
 
   /************************* Test Ball ***********************/
 /* inputs for testing */
-if (TEST){
-    /**Texts*/
-    fill(0);
-    stroke(0);
-    textSize(10);
-    text("X", 20, 50);
-    text("Y", 20, 70);
-    text("vx", 20, 90);
-    text("vy", 20, 110);
-    textSize(12);
-    text("m/s", 80, 90);
-    text("m/s", 80, 110);
-    dt = 0.2/ frmRate;
-}
+// if (TEST){
+//     /**Texts*/
+//     fill(0);
+//     stroke(0);
+//     textSize(10);
+//     text("X", 20, 50);
+//     text("Y", 20, 70);
+//     text("vx", 20, 90);
+//     text("vy", 20, 110);
+//     textSize(12);
+//     text("m/s", 80, 90);
+//     text("m/s", 80, 110);
+//     dt = 0.5/ frmRate;
+// }
     
 
-if(testBallVisible){
-    switch (testball_status){
-        case "init":
-            placeTestBall(); //automatic adjust ball position
-            break;
-        case "move":
-            testBallMove();
-            break;
-      }
-      fill(0);
-      ellipse(kXi(testBall_x*M), kYi(testBall_y*M), d_ball*M, d_ball*M);
-    }   
-}
+// if(testBallVisible){
+//     switch (testball_status){
+//         case "init":
+//             placeTestBall(); //automatic adjust ball position
+//             break;
+//         case "move":
+//             testBallMove();
+//             break;
+//       }
+//       fill(0);
+//       ellipse(kXi(testBall_x*M), kYi(testBall_y*M), d_ball*M, d_ball*M);
+//     }   
+ }

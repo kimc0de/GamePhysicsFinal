@@ -47,10 +47,10 @@ function drawWippe(x, y, w, h, phi, side) {
 
   // small triangles on top of Wippen
   if (side === "left") {
-    triangle(kXi(-1.0875 * M), kYi(0.6708 * M), kXi(-1.07 * M), kYi(0.6983 * M), kXi(-1.05 * M), kYi(0.6658 * M));
+    triangle(kXi(-1.098 * M), kYi(0.6455 * M), kXi(-1.075 * M), kYi(0.67 * M), kXi(-1.05 * M), kYi(0.6455 * M));
   }
   if (side === "right") {
-    triangle(-kXi(-1.0875 * M), kYi(0.6708 * M), -kXi(-1.07 * M), kYi(0.6983 * M), -kXi(-1.05 * M), kYi(0.6658 * M));
+    triangle(-kXi(-1.098 * M), kYi(0.6455 * M), -kXi(-1.075 * M), kYi(0.67 * M), -kXi(-1.05 * M), kYi(0.6455 * M));
   }
   pop();
 }

@@ -1,8 +1,8 @@
 /* This file handles constant stuff such as canvas, text, ground.  */
 
 /* Canvas */
-var Width = 600; // canvas width
-var Height = 300; //canvas height
+var Width = 1440; // canvas width
+var Height = 695; //canvas height
 
 /* Co-ordinates */
 var xi0 = 0.5 * Width; // intern origin X-position
@@ -32,10 +32,16 @@ function drawConstants() {
 
   /* Text */
   fill(0, 0, 0);
-  textSize(12);
-  text("Ball Game - Kim Ngan Le Dang", 220, 30);
+  textSize(25);
+  text("Ball Game", Width/2 - 60, 30);
   //scores
-  text("Treffer "+ leftScore + " : " + rightScore, 270, 55);
+  fill(0,255,0);
+  text(leftScore, Width/2 -30, 65);
+  fill(0,0,0);
+  text(" : ", Width/2 -20, 65);
+  fill(255,255,0);
+  text(rightScore, Width/2 , 65);
+
 
   /* Ground */
   strokeWeight(1);
@@ -53,8 +59,7 @@ function drawConstants() {
   /* Wippe */
   strokeWeight(1);
   stroke(0);
-  fill(49, 96, 178); //triangles color
-  //triangles
+  fill(49, 96, 178); 
   //left
   triangle(kXi(-wip_dis * M), kYi(groundY) - tri_height * M, //top
     kXi((-wip_dis + 0.04) * M), kYi(groundY), //right
@@ -64,13 +69,13 @@ function drawConstants() {
     kXi((wip_dis + 0.04) * M), kYi(groundY), //right
     kXi((wip_dis - 0.04) * M), kYi(groundY)); //left
 
-  //Which turn 
-  textSize(15);
-  if (leftTurn){
-    fill(0, 255, 0);
-    text("Left", 170, 55);
-  }else if (rightTurn){
-    fill(255, 255, 0);
-    text("Right", 370, 55);
-  }
+  // //Which turn 
+  // textSize(20);
+  // if (leftTurn){
+  //   fill(0, 255, 0);
+  //   text("Left", Width/2 - 300, 55);
+  // }else if (rightTurn){
+  //   fill(255, 255, 0);
+  //   text("Right", Width/2 + 300, 55);
+  // }
 }

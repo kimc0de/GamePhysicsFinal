@@ -2,7 +2,7 @@
 
 var butonX, buttonY, buttonW, buttonH, buttonName, buttonColor; // Main Start/Reset button
 var START = false; //start/reset of the main button
-
+var startIsClicked = false;
 // Button Objekt
 Button = function (xPos, yPos, width, height) {
   this.xPos = xPos;
@@ -22,8 +22,8 @@ Button = function (xPos, yPos, width, height) {
 
 /** Set up main start/reset button */
 function setupButtons() {
-  buttonX = 460;
-  buttonY = 250;
+  buttonX = Width/2-40;
+  buttonY = Height - 100;
   buttonW = 80;
   buttonH = 30;
   buttonColor = '#77FF33';
@@ -44,6 +44,7 @@ function startButtonIsClicked() {
     START = true;
     buttonColor = '#FF5533';
     buttonName = "RESET";
+    
   } else { //reset the scene
     status_left = "init";
     status_right = "init";
@@ -63,6 +64,7 @@ function startButtonIsClicked() {
     rightScore = 0;
     leftTurn = false;
     rightTurn = false;
+    startIsClicked = false;
   }
 }
 
