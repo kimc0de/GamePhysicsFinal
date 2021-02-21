@@ -329,8 +329,8 @@ function rightBall_OnGround() {
 }
 
 function rightBall_OnLeftWippe() {
-    v_right = v_right + (g * cos(leftPhi0) * frictionConst - g * sin(leftPhi0)) * dt;
-    s_right = s_right + v_right * dt;
+    v_right = v_right - (g * cos(leftPhi0) * frictionConst - g * sin(leftPhi0)) * dt;
+    s_right = s_right - v_right * dt;
     
     if (s_right < s0) {
         xball_R = bottomBorder_Left + r_ball; //push the ball to the ground
